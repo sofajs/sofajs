@@ -1,0 +1,3 @@
+# sofajs
+
+couchdb interface builder.

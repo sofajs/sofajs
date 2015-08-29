@@ -1,0 +1,43 @@
+{
+  "name": "sofajs",
+  "version": "0.0.1",
+  "description": "couchdb interface builder",
+  "main": "lib/index.js",
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
+  "dependencies": {
+    "async": "1.x.x",
+    "bcrypt": "0.x.x",
+    "bluebird": "2.x.x",
+    "hoek": "2.x.x",
+    "items": "1.x.x",
+    "joi": "6.x.x",
+    "nano": "6.x.x"
+  },
+    "devDependencies": {
+        "code": "1.x.x",
+        "lab": "5.x.x",
+        "marked": "0.x.x"
+  },
+  "scripts": {
+    "test": "node node_modules/lab/bin/lab -a code -t 100 -L -v",
+    "test-cov-html": "node node_modules/lab/bin/lab -a code -r html -o coverage.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zoe-1/sofajs.git"
+  },
+  "keywords": [
+    "couchdb",
+    "sofajs",
+    "interface",
+    "nano"
+  ],
+  "license": "BSD-3",
+  "bugs": {
+    "url": "https://github.com/zoe-1/sofajs/issues"
+  },
+  "homepage": "https://github.com/zoe-1/sofajs"
+}
