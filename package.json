@@ -22,6 +22,7 @@
         "marked": "0.x.x"
   },
   "scripts": {
+    "start": "node example/index",
     "test": "node node_modules/lab/bin/lab -a code -t 100 -L -v",
     "test-cov-html": "node node_modules/lab/bin/lab -a code -r html -o coverage.html"
   },

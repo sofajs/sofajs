@@ -1,6 +1,5 @@
 var composer = module.exports = {};
 
-
 composer.manifest = {
     connections: [
         {
@@ -11,11 +10,11 @@ composer.manifest = {
             pw: 'N3wUPwGo',
             sessionLife: 600000, // this must match session length configured in ./etc/couchdb/local.ini.
                                  // example in milliseconds, default 10 mins 600000
-            docsPort: 6000
+            docsPort: 6000       // port hapi will display docs on.
         }
     ],
-    interfaces: [{
-        './interfaces/user': [{
+    requests: [{
+        './requests/user': [{
             'name': 'user'
         }]
     }],
@@ -30,13 +29,8 @@ composer.manifest = {
         }]
     }],
     promises: [{
-        './promises/connectPromises': [{
-            'name': 'connection'  // put these promises into utils
-        }]
-    },
-    {
-        './promises/requestPromises': [{
-            'name': 'requests'
+        './promises/general': [{
+            'name': 'general'  // put these promises into utils
         }]
     }]
 };
