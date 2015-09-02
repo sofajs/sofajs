@@ -12,12 +12,30 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
     internals.toolGroup = 'core';
 
     sofaInternals.tool.register(internals.toolGroup)
+        .tooldocs(internals.toolGroup,
+                'description of tool use gfm')
         .tools([
 
-            // insert
+            // test
 
             {
                 name: 'test',
+                group: internals.toolGroup,
+                comment: 'sofajs test tool object',
+                handler: function (param, callback) {
+
+                    internals.context = this;
+
+                    console.log('test tool object executed. ' + JSON.stringify(param) );
+
+                    return internals.context;
+                }
+            },
+
+            // testdocs
+
+            {
+                name: 'testdocs',
                 group: internals.toolGroup,
                 comment: 'sofajs test tool object',
                 handler: function (param, callback) {
