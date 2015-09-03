@@ -9,9 +9,6 @@ exports = module.exports =  internals.Utils = function (sofaInternalsParam) {
     console.log('');
     console.log('');
 
-
-    // connect
-
     sofaInternals.connect = function (callback) {
 
         // connect to couchdb
@@ -31,13 +28,13 @@ exports = module.exports =  internals.Utils = function (sofaInternalsParam) {
 
         // check if db sessionid already exists
 
-        console.log('\n\033[34mutils.conect work here \033[0m');
+        console.log('\n\033[34mconnect2 work here \033[0m');
 
         if (sofaInternals.db === undefined) {
 
             console.log('\ndb.sessionid is undefined -- make db.connection');
 
-            sofaInternals.connectPromise()
+            return sofaInternals.connectPromise()
                .then(function (connection) {
 
                     console.log('connectionPromise.then() date: ' + connection.date);
@@ -46,6 +43,8 @@ exports = module.exports =  internals.Utils = function (sofaInternalsParam) {
                     sofaInternals.session.date = connection.date;
                     sofaInternals.session.id = connection.sessionid;
                     sofaInternals.db = connection.db;
+
+                    var passConnection = true;
 
                     return callback(null);
                     // return 'promise connection completed';
@@ -56,9 +55,26 @@ exports = module.exports =  internals.Utils = function (sofaInternalsParam) {
                     console.log('connectionPromise.catch() failed: ' + err);
                     // return 'promise connection err ' + err;
                     return callback(passErr);
-                    // return sofaInternals;
                 });
 
+            // internals.context.promises.connection.connect()
+            //     .then(function (connection) {
+
+            //         internals.context.session.date = connection.date;
+            //         internals.context.session.id = connection.sessionid;
+            //         internals.context.db = connection.db;
+
+            //         var passConnection = true;
+
+            //         callback(null, passConnection);
+            //         return internals.context;
+            //     })
+            //     .catch(function (err) {
+
+            //         var passErr = err;
+            //         callback(passErr);
+            //         return internals.context;
+            //     });
         } else {
 
             // sessionid alread created
@@ -67,10 +83,13 @@ exports = module.exports =  internals.Utils = function (sofaInternalsParam) {
 
             console.log('\ndb.sessionid exists -- make db.connection');
 
-            // var sessionCreationDate = Date.parse(sofaInternals.session.date) - 600000;
+            var sessionCreationDate = Date.parse(sofaInternals.session.date) - 600000;
             var sessionCreationDate = Date.parse(sofaInternals.session.date);
             var nowUnixTimeStamp = Date.now();
             var sessionLength = nowUnixTimeStamp - sessionCreationDate;
+
+            // // console.log('sessionLength' + sessionLength);
+            // // console.log('sessionLife' + internals.context.session.life);
 
             if (sessionLength >= sofaInternals.session.life) {
 
@@ -83,44 +102,37 @@ exports = module.exports =  internals.Utils = function (sofaInternalsParam) {
                         // passConnection to keep connection object in scope
                         // if do not make variable object passes as a string.
 
-                        sofaInternals.session.date = connection.date;
-                        sofaInternals.session.id = connection.sessionid;
-                        sofaInternals.session.db = connection.db;
+                        internals.context.session.date = connection.date;
+                        internals.context.session.id = connection.sessionid;
+                        internals.context.db = connection.db;
 
                         var passConnection = true;
 
-                        return callback(null, passConnection);
-                        // return internals.context;
+                        callback(null, passConnection);
+                        return internals.context;
                     })
                     .catch(function (err) {
 
                         var passErr = err;
-                        callback(passErr);
-                        return sofaInternals;
+                        return callback(passErr);
                         // return internals.context;
                     });
             }
 
-            // session is valid do nothing.
+            // // session is valid do nothing.
             // var passConnection = true;
 
-            console.log('session info already set -- date: ' + sofaInternals.session.date);
-            console.log('session info already set -- sessionid: ' + sofaInternals.session.id);
-
-            return callback(null);
+            callback(null);
             // return internals.context;
 
         }
-        return sofaInternals;
+        return internals.context;
     };
-
-    // isArray
 
     sofaInternals.isArray = function (value) {
 
         return value && typeof value === 'object' && value.constructor === Array;
     };
-
 
     //  connectPromise
 
@@ -140,7 +152,7 @@ exports = module.exports =  internals.Utils = function (sofaInternalsParam) {
                 // console.log('connection body: ' + JSON.stringify(body));
                 // console.log('connection headers: ' + JSON.stringify(headers)); cookie creation time here.
                 if (err) {
-                    console.log('connectPromise err: ' + JSON.stringify(err));
+                    console.log('err: ' + JSON.stringify(err));
                     reject(err);
                 }
 

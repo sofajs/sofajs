@@ -1,6 +1,5 @@
 var composer = module.exports = {};
 
-
 composer.manifest = {
     connections: [
         {
