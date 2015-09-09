@@ -28,6 +28,8 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
 
                     console.log('test tool object executed. ' + JSON.stringify(param) );
 
+                    callback(null, 'hey!!! tools.core.test callback ran');
+
                     return internals.context;
                 }
             },

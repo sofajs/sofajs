@@ -10,7 +10,6 @@ exports = module.exports = internals.generalPromises = function (sofaInternalsPa
     // Hoek.assert(this.identity === 'composer', ' must be instantiated using composer()');
     internals.promiseGroup = 'general';
 
-
     sofaInternals.promise.register(internals.promiseGroup)
         .promises([
 

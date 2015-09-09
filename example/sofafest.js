@@ -15,15 +15,15 @@ composer.manifest = {
     ],
     docs: {
         localServer: true,   // true starts docs server
-        docsPort: 6000       // port hapi will display docs on.
+        docsPort: 6000       // port docs display on.
     },
     requests: [{
-        './requests/user': [{
+        './user/requestsUser': [{
             'name': 'user'
         }]
     }],
     designs: [{
-        './designs/user': [{
+        './user/designUser': [{
             'name': 'user'
         }]
     }],

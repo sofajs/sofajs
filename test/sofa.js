@@ -56,7 +56,10 @@ describe('initialization', function () {
 
         var sofaInternalsclone = internals.DB.getSofaInternals();
 
-        sofaInternalsclone.tools.core.test({ test: 'param sent' });
+        sofaInternalsclone.tools.core.test({ test: 'param sent' }, function (err, result) {
+
+            console.log('test() ' + result);
+        });
 
         done();
     });
