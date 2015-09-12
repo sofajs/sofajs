@@ -23,10 +23,19 @@ internals.DB.requests.user.test('test1 parameter sent', function (err, result) {
     internals.DB.requests.user.test2('test2 parameter sent', 'options sent for test2', function (err, result2) {
 
         console.log('callback test2 executed: ' + result);
-
-        console.log(JSON.stringify(internals.DB.docs));
     });
+
 });
+
+var documentToInsert = { name: 'insert test doc', comment: 'plodding along to the finish' };
+
+internals.DB.requests.user.test4(documentToInsert, function (err, result) {
+
+    console.log('cb: err: ' + err);
+    console.log('cb: result: ' + JSON.stringify(result));
+    console.log('++' + JSON.stringify(internals.DB.requests.user));
+});
+
 
 // Note: you cannot run two async requests at the same time.
 

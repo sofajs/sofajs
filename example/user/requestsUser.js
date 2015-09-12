@@ -116,10 +116,9 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                 name: 'test4',
                 group: internals.requestGroupName,
                 comment: 'user requests test function',
-                handler: function () {
+                handler: function (documentToInsert, callback) {
 
-                    console.log('execute test4() no params sent');
-
+                    var cb = callback;
                     // check for connection errors
                     // all design functions create a db connection before executing the function.
                     // If connection has an error, err object will be in first parameter.
@@ -129,6 +128,22 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                         // callback(arguments[0]);
                         return this;
                     }
+
+                    console.log('execute test4() no params sent');
+
+                    // session automatically constructed by partial function
+                    // all requests require a datbase connection
+
+                    console.log('user.db ' + JSON.stringify(sofaInternals.db));
+                    console.log('document to insert ' + JSON.stringify(documentToInsert));
+
+
+                    sofaInternals.insert(documentToInsert, function (err, result) {
+
+                        console.log('insert err: ' + err + '\ninsert result: ' + result);
+                        return cb(null, result);
+
+                    });
 
                     return internals.context;
                 }
