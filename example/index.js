@@ -27,27 +27,24 @@ internals.DB.requests.user.test('test1 parameter sent', function (err, result) {
 
 });
 
-var documentToInsert = { name: 'insert test doc', comment: 'plodding along to the finish' };
+var documentToInsert = { name: 'insert test2 doc', comment: 'plodding along to the finish2' };
 
 internals.DB.requests.user.test4(documentToInsert, function (err, result) {
 
     console.log('cb: err: ' + err);
     console.log('cb: result: ' + JSON.stringify(result));
     console.log('++' + JSON.stringify(internals.DB.requests.user));
+    // console.log('docs.tools.core: ' + JSON.stringify(sofaInternalsclone.docs.tools.core));
 });
 
+var documentToInsert2 = { name: 'waka doc', comment: 'ploding along' };
+var documentId = 'wakawaka';
 
-// Note: you cannot run two async requests at the same time.
+internals.DB.requests.user.insertid(documentToInsert2, documentId, function (err, result) {
 
-// internals.DB.requests.user.test3(function (err, result) {
-//
-//     console.log('callback test3 executed' + result);
-// });
-//
-// internals.DB.requests.user.test4();
-//
-// internals.DB.requests.user.getuser('userid', function (err, result) {
-//
-//     console.log('get user getuser callback called: ' + result);
-// });
+    console.log('insertid cb: err: ' + err);
+    console.log('insertid cb: result: ' + JSON.stringify(result));
+    // console.log('++' + JSON.stringify(internals.DB.requests.user));
+    // console.log('docs.tools.core: ' + JSON.stringify(sofaInternalsclone.docs.tools.core));
+});
 

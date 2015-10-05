@@ -2,6 +2,7 @@ var Promise = require('bluebird');
 var Hoek = require('hoek');
 
 var internals = {};
+
 var sofaInternals = {};
 
 exports = module.exports = internals.Tools = function (sofaInternalsParam) {
@@ -13,7 +14,7 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
 
     sofaInternals.tool.register(internals.toolGroup)
         .tooldocs(internals.toolGroup,
-                'description of tool use gfm')
+                'description of tool placed here. use gfm to make it pretty.')
         .tools([
 
             // test
@@ -64,54 +65,52 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
 
                     return internals.context;
                 }
-            }
+            },
 
-            // connect
+            // insert
 
-            //{
-            //    name: 'connect',
-            //    group: internals.toolGroup,
-            //    comment: 'ensure connection to database',
-            //    handler: function (callback) {
+            {
+                name: 'insert',
+                group: internals.toolGroup,
+                comment: 'inserts document',
+                handler: function (documentToInsert, callback) {
 
-            //        // originally was using this for making connection
-            //        // but moved logic to utils module.
+                    console.log('tools.core.js: ' + JSON.stringify(sofaInternals.db));
 
-            //        internals.context = this;
+                    sofaInternals.db.insert(documentToInsert, function (err, result) {
 
-            //        // check if db sessionid already exists
+                        console.log('nano insert document completed: ' +
+                            JSON.stringify(result));
 
-            //        console.log('\n\033[34mconnect work here \033[0m');
+                        return callback(null, result);
+                    });
+                }
+            }, 
 
-            //        if (internals.context.db === undefined) {
+            // insertid
+            {
+                name: 'insertid',
+                group: internals.toolGroup,
+                comment: 'inserts a document with supplied id.',
+                handler: function (documentToInsert, documentId, callback) {
 
-            //            console.log('\ndb.sessionid is undefined -- make db.connection');
+                    console.log('tools.core.insertid(): ' + JSON.stringify(sofaInternals.db));
 
-            //            internals.context.promises.connection.connect()
-            //                .then(function (connection) {
+                    return sofaInternals.db.insert(documentToInsert, documentId, function (err, body, headers) {
 
-            //                    // passConnection to keep connection object in scope
-            //                    // if do not make variable object passes as a string.
+                        if (err) {
 
-            //                    var passConnection = connection;
+                            throw err;
+                            // return reject(err);
+                        }
 
-            //                    return callback(null, passConnection);
-            //                })
-            //                .catch(function (err) {
+                        console.log('nano insertid document completed \'headers\': ' +
+                            JSON.stringify(headers));
 
-            //                    var passErr = err;
-            //                    return callback(passErr);
-            //                });
-            //        } else {
-
-            //            console.log('\ndb.sessionid exists -- make db.connection');
-
-            //            console.log('db.sessionid setpromise connect() sessionid: ' + db.sessionid + ' sessionDate: ' + db.sessionDate);
-            //        }
-
-
-            //    }
-            //}
+                        return callback(null, headers);
+                    });
+                }
+            }, 
         ]);
 
     return sofaInternals;

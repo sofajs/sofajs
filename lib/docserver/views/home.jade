@@ -1,0 +1,44 @@
+extends layout
+
+block title
+    title Sofajs 
+
+block content
+    h1  Sofajs 
+
+    h2 Requests
+
+    ul
+    each value, index in docs.requests
+        li 
+            h3 #{index}
+
+            // each value, index in docs.requests.user.methods
+
+            ul
+            each value2, index2 in docs.requests[index].methods
+                li #{index2} #{docs.requests[index].methods[index2].signature} 
+                    <br/> #{docs.requests[index].methods[index2].comment}
+
+
+    h2 Tools
+
+    each value, index in docs.tools
+        h3 #{index}
+            p #{docs.tools[index].description} 
+
+        ul
+        each value2, index2 in docs.tools[index].methods
+            li #{index2} #{docs.tools[index].methods[index2].signature} 
+                <br/> #{docs.tools[index].methods[index2].comment}
+
+    h2 Promises 
+
+    each value, index in docs.promises
+        h3 #{index}
+            // p #{docs.promises[index].description} 
+
+        ul
+        each value2, index2 in docs.promises[index].methods
+            li #{index2} #{docs.promises[index].methods[index2].signature} 
+                <br/> #{docs.promises[index].methods[index2].comment}

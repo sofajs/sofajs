@@ -137,15 +137,45 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                     console.log('user.db ' + JSON.stringify(sofaInternals.db));
                     console.log('document to insert ' + JSON.stringify(documentToInsert));
 
+                    sofaInternals.tools.core.insert(documentToInsert, function (err, result) {
 
-                    sofaInternals.insert(documentToInsert, function (err, result) {
-
-                        console.log('insert err: ' + err + '\ninsert result: ' + result);
+                        console.log('insert2 err: ' + err + '\ninsert2 result: ' + result);
                         return cb(null, result);
 
                     });
 
-                    return internals.context;
+                    // sofaInternals.insert(documentToInsert, function (err, result) {
+
+                    //     console.log('insert err: ' + err + '\ninsert result: ' + result);
+                    //     return cb(null, result);
+
+                    // });
+
+                    // return internals.context;
+                }
+            },
+
+            // insertid 
+
+            {
+                name: 'insertid',
+                group: internals.requestGroupName,
+                comment: 'insertid request made!!',
+                handler: function (documentToInsert, documentId, callback) {
+
+                    if (arguments[0] && arguments[0].name === 'Error'){
+
+                        return callback(arguments[0]);
+                        // return this;
+                    }
+
+                    sofaInternals.tools.core.insertid(documentToInsert, documentId, function (err, result) {
+
+                        console.log('insertid err: ' + err + '\ninsertid result: ' + JSON.stringify(result));
+
+                        return callback(null, result);
+                    });
+
                 }
             }
         ]);

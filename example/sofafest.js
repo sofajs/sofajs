@@ -14,8 +14,7 @@ composer.manifest = {
         }
     ],
     docs: {
-        localServer: true,   // true starts docs server
-        docsPort: 6000       // port docs display on.
+        port: 9000       // port docs display on.
     },
     requests: [{
         './user/requestsUser': [{
