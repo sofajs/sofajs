@@ -20,7 +20,8 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
             {
                 name: 'getuser',
                 group: internals.requestGroupName,
-                comment: 'get user function',
+                comment: 'get user function message created here  \n'+
+                         '[link to google](http://www.google.com)',
                 handler: function (params, callback) {
 
                     console.log('execute requests function getuser()');
@@ -70,7 +71,23 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
             {
                 name: 'test2',
                 group: internals.requestGroupName,
-                comment: 'user requests test function',
+                comment:'## level two  \n'+
+                        '**marked it**  \n'+
+                        '### list  \n'+
+                        '* one   \n'+
+                        '  - one sub item1  \n'+
+                        '* two   \n'+
+                        '* three   \n'+
+                        '  - three sub item  \n'+
+                        '  \n'+
+                        '```JavaScript  \n'+
+                        '// my javascript function  \n'+ 
+                        '    var one = \'test variable\'  \n'+
+                        'function () {   \n'+
+                        '   // run this line console  \n'+ 
+                        '   console.log(\'test string to print\');  \n'+
+                        '}  \n'+
+                        '```',
                 handler: function (params, options, callback) {
 
                     console.log('execute test2() params ' + params);

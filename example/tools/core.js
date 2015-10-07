@@ -72,7 +72,7 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
             {
                 name: 'insert',
                 group: internals.toolGroup,
-                comment: 'inserts document',
+                comment: 'insert documents function.',
                 handler: function (documentToInsert, callback) {
 
                     console.log('tools.core.js: ' + JSON.stringify(sofaInternals.db));
