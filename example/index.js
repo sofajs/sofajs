@@ -5,13 +5,8 @@ var internals = {};
 
 internals.DB = Sofa.init(Compose.manifest, Compose.composeOptions);
 
-var sofaInternalsclone = internals.DB.getSofaInternals();
-
 console.log('\n\033[34mexecute requests from outside work\033[0m');
 
-// sofaInternalsclone.tools.core.test({ test: 'param sent' });
-
-// console.log('docs.tools.core: ' + JSON.stringify(sofaInternalsclone.docs.tools.core));
 // console.log(JSON.stringify(internals.DB.requests.user.test('hello test')));
 
 internals.DB.requests.user.test('test1 parameter sent', function (err, result) {
@@ -34,7 +29,6 @@ internals.DB.requests.user.test4(documentToInsert, function (err, result) {
     console.log('cb: err: ' + err);
     console.log('cb: result: ' + JSON.stringify(result));
     console.log('++' + JSON.stringify(internals.DB.requests.user));
-    // console.log('docs.tools.core: ' + JSON.stringify(sofaInternalsclone.docs.tools.core));
 });
 
 var documentToInsert2 = { name: 'waka doc', comment: 'ploding along' };
@@ -45,6 +39,5 @@ internals.DB.requests.user.insertid(documentToInsert2, documentId, function (err
     console.log('insertid cb: err: ' + err);
     console.log('insertid cb: result: ' + JSON.stringify(result));
     // console.log('++' + JSON.stringify(internals.DB.requests.user));
-    // console.log('docs.tools.core: ' + JSON.stringify(sofaInternalsclone.docs.tools.core));
 });
 

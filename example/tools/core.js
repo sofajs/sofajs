@@ -100,12 +100,13 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
 
                         if (err) {
 
-                            throw err;
+                            // throw err;
+                            return callback(err, headers);
                             // return reject(err);
                         }
 
-                        console.log('nano insertid document completed \'headers\': ' +
-                            JSON.stringify(headers));
+                        // console.log('nano insertid document completed \'headers\': ' +
+                        //    JSON.stringify(headers));
 
                         return callback(null, headers);
                     });

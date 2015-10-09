@@ -6,6 +6,8 @@ var sofaInternals = {};
 
 exports = module.exports = internals.userDesign = function (sofaInternalsParam) {
 
+    console.log('loading designUser()');
+
     sofaInternals = sofaInternalsParam;
     internals.designGroup = 'user';
 
@@ -18,31 +20,50 @@ exports = module.exports = internals.userDesign = function (sofaInternalsParam) 
     // }];
 
     sofaInternals.design.register(internals.designGroup)
-        .design.views({  // array of couchdb view functions
+        .design.views({
+                test: {
+                    map: function (doc) {
 
-            // test design view function
+                        if (doc.username && doc.first && doc.last && doc.email) {
 
-            test: function (doc) {
+                            emit([doc._id, doc._rev], { username: doc.username });
+                        }
+                    },
+                    reduce: null  // optional 
+                },
 
-                if (doc.username && doc.first && doc.last && doc.email) {
+                // list users
 
-                    emit([doc._id, doc._rev], { username: doc.username });
+                list: {
+                    map: function (doc) {
+
+                        if (doc.username && doc.first && doc.last && doc.email) {
+                            // key is id an revision id.
+                            emit([doc._id, doc._rev], { username: doc.username,
+                                first: doc.first, last: doc.last, email: doc.email,
+                                pw: doc.pw, scope: doc.scope,
+                                loginAttempts: doc.loginAttempts,
+                                lockUntil: doc.lockUntil });
+                        }
+                    }
+                }, 
+
+                // firstName
+                // design to search users by first name.
+
+                firstName: {
+                    map: function (doc) {
+
+                        if (doc.username && doc.first && doc.last && doc.email) {
+                            // key is id an revision id.
+                            emit(doc.first, { username: doc.username,
+                                first: doc.first, last: doc.last, email: doc.email,
+                            pw: doc.pw, scope: doc.scope,
+                            loginAttempts: doc.loginAttempts,
+                            lockUntil: doc.lockUntil });
+                        }
+                    }
                 }
-            },
-
-            // list users
-
-            list: function (doc) {
-
-                if (doc.username && doc.first && doc.last && doc.email) {
-                    // key is id an revision id.
-                    emit([doc._id, doc._rev], { username: doc.username,
-                        first: doc.first, last: doc.last, email: doc.email,
-                        pw: doc.pw, scope: doc.scope,
-                        loginAttempts: doc.loginAttempts,
-                        lockUntil: doc.lockUntil });
-                }
-            }
         })
         .design.updates({
 
