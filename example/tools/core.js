@@ -85,7 +85,7 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
                         return callback(null, result);
                     });
                 }
-            }, 
+            },
 
             // insertDesign
 
@@ -101,13 +101,13 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
                     // @todo change this to
                     // console.log('tools.core.insertid(): ' + JSON.stringify(sofaInternals.db));
 
-                    sofaInternals.db.get(documentId, function(err, body) {
+                    sofaInternals.db.get(documentId, function (err, body) {
 
                         if (err && err.statusCode === 404) {
 
                             // design does not exist make it.
 
-                            return sofaInternals.db.insert(designDocument, documentId, function (err, body, headers) {
+                            return sofaInternals.db.insert(designDocument, documentId, function (err, bodyResponse, headers) {
 
                                 if (err) {
 
@@ -129,20 +129,20 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
                             // console.log('update existing design document: '+ body);
 
                             sofaInternals.db.insert({
-                                _id: documentId, 
-                                _rev: body._rev, 
-                                views: designDocument.views, 
-                                updates: designDocument.updates }, 
-                                function (err, body) {
+                                _id: documentId,
+                                _rev: body._rev,
+                                views: designDocument.views,
+                                updates: designDocument.updates },
+                                function (err, bodyResponse) {
 
-                                 console.log('updated the design document: '+ body);
-                            });
+                                    console.log('updated the design document: ' + bodyResponse);
+                                });
 
-                            return callback(null, body);
+                            return callback(null, bodyResponse);
                         }
                     });
                 }
-            }, 
+            },
 
             // insertid
 
@@ -173,7 +173,7 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
                         return callback(null, headers);
                     });
                 }
-            }, 
+            },
             {
                 name: 'findById',
                 group: internals.toolGroup,
@@ -182,9 +182,9 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
 
                     console.log('tools.core.findById() entered: ');
 
-                    var id = documentId
+                    var id = documentId;
 
-                    sofaInternals.db.get(documentId, function(err, body) {
+                    sofaInternals.db.get(documentId, function (err, body) {
 
                         if (err && err.statusCode === 404) {
 
@@ -196,7 +196,7 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
 
                         if (!err) {
 
-                            console.log('findById: '+ body);
+                            console.log('findById: ' + body);
 
                             // update test
 
@@ -209,7 +209,7 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
                         }
                     });
                 }
-            }, 
+            }
         ]);
 
     return sofaInternals;

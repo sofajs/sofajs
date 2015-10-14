@@ -29,7 +29,7 @@ exports = module.exports = internals.userDesign = function (sofaInternalsParam) 
                             emit([doc._id, doc._rev], { views: doc.views });
                         }
                     },
-                    reduce: null  // optional 
+                    reduce: null  // optional
                 },
 
                 // list users
@@ -46,7 +46,7 @@ exports = module.exports = internals.userDesign = function (sofaInternalsParam) 
                                 lockUntil: doc.lockUntil });
                         }
                     }
-                }, 
+                },
 
                 // firstName
                 // search users by first name.
@@ -64,48 +64,48 @@ exports = module.exports = internals.userDesign = function (sofaInternalsParam) 
                         }
                     }
                 }
-        })
-        .design.updates({
+            })
+            .design.updates({
 
-            // testUpdate design update function
+                // testUpdate design update function
 
-            testUpdate: function () {
+                testUpdate: function () {
 
-                console.log('wawee5 testUpdate boom');
-            }
-        })
-        .design.fixtures([{
-                username: 'Foo Foo',
-                first: 'Foo',
-                last: 'Foo',
-                pw: 'foo',
-                email: 'foo@hapiu.com',
-                scope: ['admin', 'user'],
-                loginAttempts: 0,
-                lockUntil: Date.now() - 60 * 1000
-            },
-            {
-                'username': 'Bar Head',
-                'first': 'Bar',
-                'last': 'Head',
-                'pw': 'bar',
-                'email': 'bar@hapiuni.com',
-                'scope': ['user'],
-                loginAttempts: 0,
-                lockUntil: Date.now() - 60 * 1000
-            },
-            {
-                username: 'user1',
-                pw: '8899l1v3',
-                email: 'js@dali.photo',
-                first: 'Jon',
-                last: 'Swenson',
-                scope: ['admin', 'user'],
-                loginAttempts: 0,
-                lockUntil: Date.now() - 60 * 1000
-            }
-        ])
-        .design.load();
+                    console.log('wawee5 testUpdate boom');
+                }
+            })
+            .design.fixtures([{
+                    username: 'Foo Foo',
+                    first: 'Foo',
+                    last: 'Foo',
+                    pw: 'foo',
+                    email: 'foo@hapiu.com',
+                    scope: ['admin', 'user'],
+                    loginAttempts: 0,
+                    lockUntil: Date.now() - 60 * 1000
+                },
+                {
+                    'username': 'Bar Head',
+                    'first': 'Bar',
+                    'last': 'Head',
+                    'pw': 'bar',
+                    'email': 'bar@hapiuni.com',
+                    'scope': ['user'],
+                    loginAttempts: 0,
+                    lockUntil: Date.now() - 60 * 1000
+                },
+                {
+                    username: 'user1',
+                    pw: '8899l1v3',
+                    email: 'js@dali.photo',
+                    first: 'Jon',
+                    last: 'Swenson',
+                    scope: ['admin', 'user'],
+                    loginAttempts: 0,
+                    lockUntil: Date.now() - 60 * 1000
+                }
+            ])
+            .design.load();
 
     return this;
 };
