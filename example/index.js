@@ -26,8 +26,8 @@ var documentToInsert = { name: 'insert test2 doc', comment: 'plodding along to t
 
 internals.DB.requests.user.test4(documentToInsert, function (err, result) {
 
-    console.log('cb: err: ' + err);
-    console.log('cb: result: ' + JSON.stringify(result));
+    console.log('test4 cb: err: ' + err);
+    console.log('test4 cb: result: ' + JSON.stringify(result));
     console.log('++' + JSON.stringify(internals.DB.requests.user));
 });
 

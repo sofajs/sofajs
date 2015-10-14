@@ -143,6 +143,37 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
                     });
                 }
             }, 
+
+            // insertid
+
+            {
+                name: 'insertid',
+                group: internals.toolGroup,
+                comment: 'inserts a document with supplied id.',
+                handler: function (designDoc, docId, callback) {
+
+                    var designDocument = designDoc;
+                    var documentId = docId;
+
+                    // @todo change this to
+                    // console.log('tools.core.insertid(): ' + JSON.stringify(sofaInternals.db));
+
+                    return sofaInternals.db.insert(designDocument, documentId, function (err, body, headers) {
+
+                        if (err) {
+
+                            // throw err;
+                            return callback(err, headers);
+                            // return reject(err);
+                        }
+
+                        // console.log('nano insertid document completed \'headers\': ' +
+                        //    JSON.stringify(headers));
+
+                        return callback(null, headers);
+                    });
+                }
+            }, 
             {
                 name: 'findById',
                 group: internals.toolGroup,

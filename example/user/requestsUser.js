@@ -158,7 +158,6 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
 
                         console.log('insert2 err: ' + err + '\ninsert2 result: ' + result);
                         return cb(null, result);
-
                     });
 
                     // sofaInternals.insert(documentToInsert, function (err, result) {
