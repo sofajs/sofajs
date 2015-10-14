@@ -9,8 +9,11 @@ composer.manifest = {
             user: 'hapiadmin',
             pw: 'N3wUPwGo',
             sessionLife: 600000,  // this must match session length configured in ./etc/couchdb/local.ini.
-                                 // example in milliseconds, default 10 mins 600000
-            live: false
+                                  // example in milliseconds, default is 10 mins 600000
+
+            live: true              // live: true 
+                                    //  * d/n load fixtures
+                                    //  * update designs rather than load new ones. 
         }
     ],
     docs: {

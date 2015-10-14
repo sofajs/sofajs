@@ -24,9 +24,9 @@ exports = module.exports = internals.userDesign = function (sofaInternalsParam) 
                 test: {
                     map: function (doc) {
 
-                        if (doc.username && doc.first && doc.last && doc.email) {
+                        if (doc.language && doc.views) {
 
-                            emit([doc._id, doc._rev], { username: doc.username });
+                            emit([doc._id, doc._rev], { views: doc.views });
                         }
                     },
                     reduce: null  // optional 
@@ -38,7 +38,7 @@ exports = module.exports = internals.userDesign = function (sofaInternalsParam) 
                     map: function (doc) {
 
                         if (doc.username && doc.first && doc.last && doc.email) {
-                            // key is id an revision id.
+                            // :-)4 key is id an revision id.
                             emit([doc._id, doc._rev], { username: doc.username,
                                 first: doc.first, last: doc.last, email: doc.email,
                                 pw: doc.pw, scope: doc.scope,
@@ -49,7 +49,7 @@ exports = module.exports = internals.userDesign = function (sofaInternalsParam) 
                 }, 
 
                 // firstName
-                // design to search users by first name.
+                // search users by first name.
 
                 firstName: {
                     map: function (doc) {
@@ -71,7 +71,7 @@ exports = module.exports = internals.userDesign = function (sofaInternalsParam) 
 
             testUpdate: function () {
 
-                console.log('testUpdate boom');
+                console.log('wawee5 testUpdate boom');
             }
         })
         .design.fixtures([{

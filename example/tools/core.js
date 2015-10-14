@@ -87,28 +87,95 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
                 }
             }, 
 
-            // insertid
+            // insertDesign
+
             {
-                name: 'insertid',
+                name: 'insertDesign',
                 group: internals.toolGroup,
                 comment: 'inserts a document with supplied id.',
-                handler: function (documentToInsert, documentId, callback) {
+                handler: function (designDoc, docId, callback) {
 
-                    console.log('tools.core.insertid(): ' + JSON.stringify(sofaInternals.db));
+                    var designDocument = designDoc;
+                    var documentId = docId;
 
-                    return sofaInternals.db.insert(documentToInsert, documentId, function (err, body, headers) {
+                    // @todo change this to
+                    // console.log('tools.core.insertid(): ' + JSON.stringify(sofaInternals.db));
 
-                        if (err) {
+                    sofaInternals.db.get(documentId, function(err, body) {
 
-                            // throw err;
-                            return callback(err, headers);
-                            // return reject(err);
+                        if (err && err.statusCode === 404) {
+
+                            // design does not exist make it.
+
+                            return sofaInternals.db.insert(designDocument, documentId, function (err, body, headers) {
+
+                                if (err) {
+
+                                    // throw err;
+                                    return callback(err, headers);
+                                    // return reject(err);
+                                }
+
+                                // console.log('nano insertid document completed \'headers\': ' +
+                                //    JSON.stringify(headers));
+
+                                return callback(null, headers);
+                            });
                         }
 
-                        // console.log('nano insertid document completed \'headers\': ' +
-                        //    JSON.stringify(headers));
+                        if (!err) {
 
-                        return callback(null, headers);
+                            // update existing design
+                            // console.log('update existing design document: '+ body);
+
+                            sofaInternals.db.insert({
+                                _id: documentId, 
+                                _rev: body._rev, 
+                                views: designDocument.views, 
+                                updates: designDocument.updates }, 
+                                function (err, body) {
+
+                                 console.log('updated the design document: '+ body);
+                            });
+
+                            return callback(null, body);
+                        }
+                    });
+                }
+            }, 
+            {
+                name: 'findById',
+                group: internals.toolGroup,
+                comment: 'find document by id.',
+                handler: function (documentId, callback) {
+
+                    console.log('tools.core.findById() entered: ');
+
+                    var id = documentId
+
+                    sofaInternals.db.get(documentId, function(err, body) {
+
+                        if (err && err.statusCode === 404) {
+
+                            // record does not exist.
+
+                            console.log('findById record not found');
+                            console.log(err);
+                        }
+
+                        if (!err) {
+
+                            console.log('findById: '+ body);
+
+                            // update test
+
+                            // sofaInternals.db.insert({_id: id, _rev: body._rev, views: {test: 'boom'} }, function (err, body) {
+
+                            //     console.log('insert body: '+ body);
+                            // });
+
+                            return callback(null, body);
+                        }
                     });
                 }
             }, 
