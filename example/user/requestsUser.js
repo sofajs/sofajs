@@ -1,5 +1,8 @@
 var Promise = require('bluebird');
 var Hoek = require('hoek');
+var Items = require('items');
+var Bcrypt = require('bcrypt');
+var SALT_WORK_FACTOR = 10;
 
 var internals = {};
 var sofaInternals = {};
@@ -40,80 +43,19 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                     return internals.context;
                 }
             },
+
+            // list
+
             {
-                name: 'test',
+                name: 'list',
                 group: internals.requestGroupName,
-                comment: 'user requests test function',
-                handler: function (params, callback) {
-
-                    console.log('execute requests function test() ' + params);
-
-                    sofaInternals.tools.core.test('one param', function (err, result) {
-
-                        // asynch
-
-                        console.log('tools.core.test result: ' + result);
-                    });
-                    // check for connection errors
-                    // all design functions create a db connection before executing the function.
-                    // If connection has an error, err object will be in first parameter.
-
-                    if (arguments[0] && arguments[0].name === 'Error'){
-
-                        callback(arguments[0]);
-                        return this;
-                    }
-
-                    callback(null, 'test request executed');
-                    return internals.context;
-                }
-            },
-            {
-                name: 'test2',
-                group: internals.requestGroupName,
-                comment:'## level two  \n' +
-                        '**marked it**  \n' +
-                        '### list  \n' +
-                        '* one   \n' +
-                        '  - one sub item1  \n' +
-                        '* two   \n' +
-                        '* three   \n' +
-                        '  - three sub item  \n' +
-                        '  \n' +
-                        '```JavaScript  \n' +
-                        '// my javascript function  \n' +
-                        '    var one = \'test variable\'  \n' +
-                        'function () {   \n' +
-                        '   // run this line console  \n' +
-                        '   console.log(\'test string to print\');  \n' +
-                        '}  \n' +
-                        '```',
-                handler: function (params, options, callback) {
-
-                    console.log('execute test2() params ' + params);
-                    console.log('execute test2() options ' + options);
-
-                    // check for connection errors
-                    // all design functions create a db connection before executing the function.
-                    // If connection has an error, err object will be in first parameter.
-
-                    if (arguments[0] && arguments[0].name === 'Error'){
-
-                        callback(arguments[0]);
-                        return this;
-                    }
-
-                    callback(null, 'test2 request return from callback');
-                    return internals.context;
-                }
-            },
-            {
-                name: 'test3',
-                group: internals.requestGroupName,
-                comment: 'user requests test function',
+                comment: 'get all user records  \n' +
+                         'gives an array of records to callback.',
                 handler: function (callback) {
 
-                    console.log('execute test3() one callback param');
+                    var listCallback = callback;
+
+                    console.log('execute requests function getuser()');
 
                     // check for connection errors
                     // all design functions create a db connection before executing the function.
@@ -125,48 +67,30 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                         return this;
                     }
 
-                    callback(null, 'test3 sending callback received one param');
-                    return internals.context;
-                }
-            },
-            {
-                name: 'test4',
-                group: internals.requestGroupName,
-                comment: 'user requests test function',
-                handler: function (documentToInsert, callback) {
+                    return sofaInternals.db.view('user', 'list', function (err, body) {
 
-                    var cb = callback;
-                    // check for connection errors
-                    // all design functions create a db connection before executing the function.
-                    // If connection has an error, err object will be in first parameter.
+                        if (!err) {
 
-                    if (arguments[0] && arguments[0].name === 'Error'){
+                            // console.log('email count: ' + body.rows.length);
+                            // var i = 0;
 
-                        // callback(arguments[0]);
-                        return this;
-                    }
+                            return listCallback(null, body);
 
-                    console.log('execute test4() no params sent');
+                            // body.rows.forEach(function (doc) {
 
-                    // session automatically constructed by partial function
-                    // all requests require a datbase connection
+                            //     // @todo remove this
+                            //     ++i;
 
-                    console.log('user.db ' + JSON.stringify(sofaInternals.db));
-                    console.log('document to insert ' + JSON.stringify(documentToInsert));
-
-                    sofaInternals.tools.core.insert(documentToInsert, function (err, result) {
-
-                        console.log('insert2 err: ' + err + '\ninsert2 result: ' + result);
-                        return cb(null, result);
+                            //     console.log('users() is running: ' + JSON.stringify(doc.value));
+                            //     if (i === body.rows.length) {
+                            //         // return when last record is processed
+                            //         return callback(null, body);
+                            //     }
+                            // });
+                        }
                     });
 
-                    // sofaInternals.insert(documentToInsert, function (err, result) {
-
-                    //     console.log('insert err: ' + err + '\ninsert result: ' + result);
-                    //     return cb(null, result);
-
-                    // });
-
+                    // callback(null, 'requests users() succeeded');
                     // return internals.context;
                 }
             },
@@ -192,6 +116,110 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                         return callback(null, result);
                     });
 
+                }
+            },
+
+            // getUserByEmail
+
+            {
+                name: 'getByEmail',
+                group: internals.requestGroupName,
+                comment: 'request user record based on email key.',
+                handler: function (email, callback) {
+
+                    if (arguments[0] && arguments[0].name === 'Error'){
+
+                        return callback(arguments[0]);
+                        // return this;
+                    }
+
+                    console.log('getByEmail STARTED');
+
+                    return sofaInternals.db.view('user', 'email', { keys: [email] }, function (err, body) {
+
+                        if (!err) {
+
+                            // console.log('email count: ' + body.rows.length);
+                            var i = 0;
+
+                            body.rows.forEach(function (doc) {
+
+                                // @todo remove this
+                                ++i;
+
+                                if (i === body.rows.length) {
+                                    // return when last record is processed
+                                    return callback(null, body);
+                                }
+                            });
+                        }
+                    });
+                }
+            },
+
+            // hashization
+
+            {
+                name: 'hashization',
+                group: internals.requestGroupName,
+                comment: 'hash all passwords in fixtures data.',
+                handler: function (callback) {
+
+                    internals.userList = {};
+
+                    if (arguments[0] && arguments[0].name === 'Error'){
+
+                        return callback(arguments[0]);
+                        // return this;
+                    }
+
+                    return sofaInternals.requests.user.list(function (err, result) {
+
+                        // @todo cleanup this userList
+                        // duplicate variables overkill.
+                        internals.userList = Hoek.clone(result);
+                        internals.userList.count = 0;
+
+                        if (!err) {
+
+                            Items.serial(internals.userList.rows,
+                                function (item, next) {
+
+                                    internals.next = next;
+                                    internals.password = Hoek.clone(item.value.pw);
+                                    internals.hashedPassword = item.value.pw;
+
+                                    // console.log('processing item ' + item.value.first);
+
+                                    // hash pw for user
+
+                                    Bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+
+                                        Bcrypt.hash(internals.password, salt, function (err, hash) {
+
+                                            // Store hash in your password DB.
+                                            console.log('hashed pw result: ' + hash);
+                                            internals.hashedPassword = hash;
+                                            internals.userList.rows[internals.userList.count].value.pw = hash;
+                                            console.log('set: ' + internals.userList.rows[internals.userList.count].value.pw);
+                                            ++internals.userList.count;
+                                            internals.next();
+                                        });
+                                    });
+                                },
+                                function (err) {
+
+                                    console.log('done items ' + err);
+                                    console.log('done items 2' + internals.userList.rows[0].value.pw);
+                                    var boom = Hoek.clone(internals.userList);
+                                    return callback(null, boom);
+                                });
+                        }
+                    });
+
+
+                    // return when last record is processed
+                    // return callback(null, 'done hashization');
                 }
             }
         ]);
