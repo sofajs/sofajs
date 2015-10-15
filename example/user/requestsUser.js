@@ -75,23 +75,8 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                             // var i = 0;
 
                             return listCallback(null, body);
-
-                            // body.rows.forEach(function (doc) {
-
-                            //     // @todo remove this
-                            //     ++i;
-
-                            //     console.log('users() is running: ' + JSON.stringify(doc.value));
-                            //     if (i === body.rows.length) {
-                            //         // return when last record is processed
-                            //         return callback(null, body);
-                            //     }
-                            // });
                         }
                     });
-
-                    // callback(null, 'requests users() succeeded');
-                    // return internals.context;
                 }
             },
 
@@ -154,72 +139,6 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                             });
                         }
                     });
-                }
-            },
-
-            // hashization
-
-            {
-                name: 'hashization',
-                group: internals.requestGroupName,
-                comment: 'hash all passwords in fixtures data.',
-                handler: function (usersArray, callback) {
-
-                    internals.userList = {};
-
-                    if (arguments[0] && arguments[0].name === 'Error'){
-
-                        return callback(arguments[0]);
-                        // return this;
-                    }
-
-                    return sofaInternals.requests.user.list(function (err, result) {
-
-                        // @todo cleanup this userList
-                        // duplicate variables overkill.
-                        internals.userList = Hoek.clone(result);
-                        internals.userList.count = 0;
-
-                        if (!err) {
-
-                            Items.serial(internals.userList.rows,
-                                function (item, next) {
-
-                                    internals.next = next;
-                                    internals.password = Hoek.clone(item.value.pw);
-                                    internals.hashedPassword = item.value.pw;
-
-                                    // console.log('processing item ' + item.value.first);
-
-                                    // hash pw for user
-
-                                    Bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
-
-                                        Bcrypt.hash(internals.password, salt, function (err, hash) {
-
-                                            // Store hash in your password DB.
-                                            console.log('hashed pw result: ' + hash);
-                                            internals.hashedPassword = hash;
-                                            internals.userList.rows[internals.userList.count].value.pw = hash;
-                                            console.log('set: ' + internals.userList.rows[internals.userList.count].value.pw);
-                                            ++internals.userList.count;
-                                            internals.next();
-                                        });
-                                    });
-                                },
-                                function (err) {
-
-                                    console.log('done items ' + err);
-                                    console.log('done items 2' + internals.userList.rows[0].value.pw);
-                                    var boom = Hoek.clone(internals.userList);
-                                    return callback(null, boom);
-                                });
-                        }
-                    });
-
-
-                    // return when last record is processed
-                    // return callback(null, 'done hashization');
                 }
             }
         ]);

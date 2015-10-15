@@ -11,7 +11,7 @@ composer.manifest = {
             sessionLife: 600000,  // this must match session length configured in ./etc/couchdb/local.ini.
                                   // example in milliseconds, default is 10 mins 600000
 
-            live: false              // live: true
+            live: true              // live: true
                                     //  * d/n load fixtures
                                     //  * update designs rather than load new ones.
         }
@@ -29,15 +29,18 @@ composer.manifest = {
             'name': 'user'
         }]
     }],
-    tools: [{
-        './tools/core': [{
-            'name': 'core'
-        }]},
+    tools: [
         {
-        './user/tools': [{
-            'name': 'user'
-        }]
-    }],
+            './tools/core': [{
+                'name': 'core'
+            }]
+        },
+        {
+            './user/tools': [{
+                'name': 'user'
+            }]
+        }
+    ],
     promises: [{
         './promises/general': [{
             'name': 'general'

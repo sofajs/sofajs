@@ -26,7 +26,7 @@ exports = module.exports = function (sofaInternalsParam) {
                 comment: 'make bcrypt hash of submitted pw',
                 handler: function (item, next) {
 
-                    // console.log('hashit tool object executed. ' + JSON.stringify(item) ); 
+                    // console.log('hashit tool object executed. ' + JSON.stringify(item) );
                     // internals.pwToHash = pw;
                     // callback(null, 'hey!!! hashit callback ran');
 

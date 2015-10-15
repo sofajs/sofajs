@@ -136,9 +136,9 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
                                 function (err, bodyResponse) {
 
                                     console.log('updated the design document: ' + bodyResponse);
+                                    return callback(null, bodyResponse);
                                 });
 
-                            return callback(null, bodyResponse);
                         }
                     });
                 }
