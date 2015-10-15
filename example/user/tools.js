@@ -1,5 +1,7 @@
 var Promise = require('bluebird');
 var Hoek = require('hoek');
+var Bcrypt = require('bcrypt');
+var SALT_WORK_FACTOR = 10;
 
 var internals = {};
 
@@ -22,12 +24,21 @@ exports = module.exports = function (sofaInternalsParam) {
                 name: 'hashit',
                 group: internals.toolGroup,
                 comment: 'make bcrypt hash of submitted pw',
-                handler: function (pw, callback) {
+                handler: function (item, next) {
 
-                    console.log('test tool object executed. ' + JSON.stringify(param) );
+                    // console.log('hashit tool object executed. ' + JSON.stringify(item) ); 
+                    // internals.pwToHash = pw;
+                    // callback(null, 'hey!!! hashit callback ran');
 
-                    callback(null, 'hey!!! hashit callback ran');
+                    Bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
 
+                        Bcrypt.hash(item.pw, salt, function (err, hash) {
+
+                            // Store hash in your password DB.
+                            item.pw = hash;
+                            next();
+                        });
+                    });
                 }
             }
         ]);

@@ -32,6 +32,10 @@ composer.manifest = {
     tools: [{
         './tools/core': [{
             'name': 'core'
+        }]},
+        {
+        './user/tools': [{
+            'name': 'user'
         }]
     }],
     promises: [{

@@ -22,20 +22,19 @@ internals.DB = Sofa.init(Compose.manifest, Compose.composeOptions);
 
 describe('CRUD', function () {
 
-    before(function (done) {
+    // before(function (done) {
 
+    //     internals.DB.requests.user.hashization(function (err, result) {
 
-        internals.DB.requests.user.hashization(function (err, result) {
+    //         console.log('hashization result from callback: ' + result.rows[1].value.pw);
+    //     });
 
-            console.log('hashization result from callback: ' + result.rows[1].value.pw);
-        });
+    //     // Wait 1 second
+    //     setTimeout( function () {
 
-        // Wait 1 second
-        setTimeout( function () {
-
-            done();
-        }, 1000);
-    });
+    //         done();
+    //     }, 1000);
+    // });
 
     it('getUserByEmail', function (done) {
 

@@ -163,7 +163,7 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                 name: 'hashization',
                 group: internals.requestGroupName,
                 comment: 'hash all passwords in fixtures data.',
-                handler: function (callback) {
+                handler: function (usersArray, callback) {
 
                     internals.userList = {};
 
