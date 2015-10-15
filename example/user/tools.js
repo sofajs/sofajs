@@ -18,10 +18,10 @@ exports = module.exports = function (sofaInternalsParam) {
                 'helpers for working with user data')
         .tools([
 
-            // hashit
+            // hashem
 
             {
-                name: 'hashit',
+                name: 'hashem',
                 group: internals.toolGroup,
                 comment: 'make bcrypt hash of submitted pw',
                 handler: function (item, next) {

@@ -80,19 +80,41 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                 }
             },
 
+            // first
+
+            {
+                name: 'first',
+                group: internals.requestGroupName,
+                comment: 'fetch first user record  \n',
+                handler: function (callback) {
+
+                    // console.log('execute request function first()');
+
+                    if (arguments[0] && arguments[0].name === 'Error'){
+
+                        callback(arguments[0]);
+                        return this;
+                    }
+
+                    return sofaInternals.db.view('user', 'list', function (err, body) {
+
+                        if (!err) {
+
+                            // return first user record
+
+                            return callback(null, body.rows[0].value);
+                        }
+                    });
+                }
+            },
+
             // insertid
 
             {
                 name: 'insertid',
                 group: internals.requestGroupName,
-                comment: 'insertid request made!!',
+                comment: 'insert document specifying it\'s _id value.',
                 handler: function (documentToInsert, documentId, callback) {
-
-                    if (arguments[0] && arguments[0].name === 'Error'){
-
-                        return callback(arguments[0]);
-                        // return this;
-                    }
 
                     sofaInternals.tools.core.insertid(documentToInsert, documentId, function (err, result) {
 
@@ -100,44 +122,103 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
 
                         return callback(null, result);
                     });
-
                 }
             },
 
-            // getUserByEmail
+            // fetchByEmail
 
             {
-                name: 'getByEmail',
+                name: 'fetchByEmail',
                 group: internals.requestGroupName,
-                comment: 'request user record based on email key.',
+                comment: 'request user record based on email key.\n' +
+                         'utilizes **_design/user email** view. \n',
                 handler: function (email, callback) {
 
-                    if (arguments[0] && arguments[0].name === 'Error'){
+                    if (arguments[0].name !== undefined && arguments[0].name === 'Error'){
 
                         return callback(arguments[0]);
                         // return this;
                     }
 
-                    console.log('getByEmail STARTED');
+                    console.log('fetchByEmail STARTED');
 
-                    return sofaInternals.db.view('user', 'email', { keys: [email] }, function (err, body) {
+                    sofaInternals.db.view('user', 'email', { keys: [email] }, function (err, body) {
 
-                        if (!err) {
+                        if (err) {
 
-                            // console.log('email count: ' + body.rows.length);
-                            var i = 0;
-
-                            body.rows.forEach(function (doc) {
-
-                                // @todo remove this
-                                ++i;
-
-                                if (i === body.rows.length) {
-                                    // return when last record is processed
-                                    return callback(null, body);
-                                }
-                            });
+                            return callback(err, null);
                         }
+
+                        // console.log('email count: ' + body.rows.length);
+
+                        var record = body.rows[body.rows.length];
+                        return callback(null, body);
+
+                        // body.rows.forEach(function (doc) {
+
+                        //     // @todo remove this
+                        //     ++i;
+
+                        //     if (i === body.rows.length) {
+                        //         // return when last record is processed
+                        //         return callback(null, body);
+                        //     }
+                        // });
+                    });
+                }
+            },
+
+            // fetchByUsername
+
+            {
+                name: 'fetchByUserId',
+                group: internals.requestGroupName,
+                comment: 'request user record based on userId key.\n' +
+                         'utilizes **_design/user userid** view. \n',
+                handler: function (userid, callback) {
+
+                    sofaInternals.db.view('user', 'userid', { keys: [userid] }, function (err, body) {
+
+                        if (err) {
+
+                            return callback(err, null);
+                        }
+
+                        // console.log('email count: ' + body.rows.length);
+
+                        // var record = body.rows[body.rows.length];
+                        return callback(null, body);
+                    });
+                }
+            },
+
+            // update
+
+            {
+                name: 'update',
+                group: internals.requestGroupName,
+                comment: 'update existing document with modified data.\n' +
+                         '#### Note:  \n' +
+                         '**modifiedDocument** must be an existing document and have \n' +
+                         'the "rev" value set in order for update to work.',
+                handler: function (modifiedDocument, callback) {
+
+                    // console.log('execute request function first()');
+
+                    if (arguments[0].name !== undefined &&
+                            arguments[0].name === 'Error')
+                    {
+
+                        return callback(arguments[0]);
+                    }
+
+                    // modified
+                    sofaInternals.db.insert(modifiedDocument, function (err, result) {
+
+                        // console.log('modify -- nano insert document completed: ' +
+                        //     JSON.stringify(result));
+
+                        return callback(null, result);
                     });
                 }
             }

@@ -31,20 +31,25 @@ describe('initialization', function () {
         expect(internals.DB.identity).to.equal('composer');
         // console.log(DB.identity);
 
-        var sofaInternalsclone = internals.DB.getSofaInternals();
+        var sofaInternalsclone = {};
 
-        sofaInternalsclone.promises.general.insert({ name: 'hi promise' });
+        internals.DB.getSofaInternals(function (err, sofaInternals) {
 
-        sofaInternalsclone.promises.general.test({ name: 'hi promise' })
-            .then(function (result) {
+            sofaInternalsclone = sofaInternals;
 
-                console.log('test promise result ' + JSON.stringify(result));
-            }).catch(function (err) {
+            sofaInternalsclone.promises.general.insert({ name: 'hi promise' });
 
-                console.log('test promise err' + JSON.stringify(err));
-            });
+            sofaInternalsclone.promises.general.test({ name: 'hi promise' })
+                .then(function (result) {
 
-        done();
+                    console.log('test promise result ' + JSON.stringify(result));
+                    done();
+                }).catch(function (err) {
+
+                    console.log('test promise err' + JSON.stringify(err));
+                    done();
+                });
+        });
     });
 
     it('composer tools core loaded', function (done) {
@@ -54,13 +59,13 @@ describe('initialization', function () {
         expect(internals.DB.identity).to.equal('composer');
         // console.log(DB.identity);
 
-        var sofaInternalsclone = internals.DB.getSofaInternals();
+        internals.DB.getSofaInternals(function (err, sofaInternals) {
 
-        sofaInternalsclone.tools.core.test({ test: 'param sent' }, function (err, result) {
+            sofaInternals.tools.core.test({ test: 'param sent' }, function (err, result) {
 
-            console.log('test() ' + result);
+                console.log('test() ' + result);
+                done();
+            });
         });
-
-        done();
     });
 });

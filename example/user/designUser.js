@@ -21,6 +21,9 @@ exports = module.exports = internals.userDesign = function (sofaInternalsParam) 
 
     sofaInternals.design.register(internals.designGroup)
         .design.views({
+
+                // _design/user view functions built below.
+                // "npm run reload" will refresh all design functions in the db.
                 test: {
                     map: function (doc) {
 
@@ -39,11 +42,7 @@ exports = module.exports = internals.userDesign = function (sofaInternalsParam) 
 
                         if (doc.username && doc.first && doc.last && doc.email) {
                             // :-)1 key is id an revision id.
-                            emit([doc._id, doc._rev], { username: doc.username,
-                                first: doc.first, last: doc.last, email: doc.email,
-                                pw: doc.pw, scope: doc.scope,
-                                loginAttempts: doc.loginAttempts,
-                                lockUntil: doc.lockUntil });
+                            emit([doc._id, doc._rev], doc);
                         }
                     }
                 },
@@ -80,6 +79,32 @@ exports = module.exports = internals.userDesign = function (sofaInternalsParam) 
                                 loginAttempts: doc.loginAttempts,
                                 lockUntil: doc.lockUntil
                             });
+                        }
+                    }
+                },
+
+                // username
+                // search users by email.
+
+                username: {
+                    map: function (doc) {
+
+                        if (doc.username && doc.first && doc.last && doc.email) {
+                            // key is id an revision id.
+                            emit(doc.username, doc);
+                        }
+                    }
+                },
+
+                // userid
+                // search users by userid.
+
+                userid: {
+                    map: function (doc) {
+
+                        if (doc.username && doc.first && doc.last && doc.email) {
+                            // key is id an revision id.
+                            emit(doc._id, doc);
                         }
                     }
                 }
