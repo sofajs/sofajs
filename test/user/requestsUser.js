@@ -241,8 +241,9 @@ describe('user CRUD', function () {
 
         internals.DB.requests.user.insertid(userRecord, id, function (err, result) {
 
-            console.log('insertid: err' + err);
-            console.log('insertid: ' + result);
+            expect(result.statusCode).to.equal(201);
+            // console.log('insertid: err' + err);
+            // console.log('insertid: ' + JSON.stringify(result));
             return done();
         });
     });

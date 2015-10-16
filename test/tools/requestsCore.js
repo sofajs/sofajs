@@ -98,11 +98,11 @@ describe('requestsCore', function () {
 
                         var original = sofaInternals.db.destroy;
 
-                        // make fake nano destroy function to return error. 
+                        // make fake nano destroy function to return error.
                         // requests.core.destroy uses this fake function.
 
                         sofaInternals.db.destroy = function (id, rev, callback) {
-                        
+
                             var fake = new Error('fake destroy document error');
 
                             callback(fake, null);
@@ -113,7 +113,6 @@ describe('requestsCore', function () {
                             sofaInternals.db.destroy = original;
 
                             expect(err.message).to.equal('fake destroy document error');
-                            // console.log('errorMessage: ' + err);
                             return next();
                         });
                     });
@@ -124,7 +123,7 @@ describe('requestsCore', function () {
                 }], function (err) {
 
                     delete internals.destroy;
-                    console.log('done destroyErr');
+                    // console.log('done destroyErr');
                     return done();
                 });
     });
