@@ -90,4 +90,34 @@ describe('tools.core', function () {
             });
         });
     });
+
+    // it('insertid', function (done) {
+
+    //     internals.DB.getSofaInternals(function (err, sofaInternals) {
+
+    //         // make connection
+
+    //         sofaInternals.connect(function () {
+
+    //             // get user record using it's id
+
+    //             var insertDocument = {
+    //                 'username': 'Ponzo McKee',
+    //                 'first': 'Ponzo',
+    //                 'last': 'McFagen',
+    //                 'pw': 'bar',
+    //                 'email': 'ponzo@hapiu.com',
+    //                 'scope': ['user'],
+    //                 loginAttempts: 0,
+    //                 lockUntil: Date.now() - 60 * 1000
+    //             };
+
+    //             sofaInternals.tools.core.insertid(insertDocument, insertid,function (err, documentBody) {
+
+    //                 //console.log(JSON.stringify(documentBody));
+    //                 done();
+    //             });
+    //         });
+    //     });
+    // });
 });

@@ -241,14 +241,13 @@ describe('user CRUD', function () {
 
         internals.DB.requests.user.insertid(userRecord, id, function (err, result) {
 
-            // console.log('inserid: ' + result);
+            console.log('insertid: err' + err);
+            console.log('insertid: ' + result);
             return done();
         });
     });
 
     it('insertidError', function (done) {
-
-        var insertidError = new Error('insertid coverage');
 
         var userRecord = {
             'username': 'Ponzo McKee',
@@ -263,10 +262,28 @@ describe('user CRUD', function () {
 
         var id = 'ponzo';
 
-        internals.DB.requests.user.insertid(insertidError, id, function (err, result) {
+        internals.DB.requests.user.insertid(userRecord, id, function (err, result) {
 
+            // console.log('err object: ' + JSON.stringify(err));
+            expect(err.statusCode).to.equal(409);
+            expect(err.message).to.equal('Document update conflict.');
+            // console.log(JSON.stringify(result));
             // console.log('inserid: ' + result);
-            return done();
+
+            // destroy conflicting document
+
+            internals.DB.requests.user.fetchById('ponzo', function (err, result1) {
+
+                // console.log('destroy fetched: ' + JSON.stringify(result.rows[0].value));
+
+                internals.DB.requests.core.destroy(result1.rows[0].value, function (err, result2) {
+
+                    //console.log('destroy ended:-) ' + internals.destroy.rev);
+                    // console.log('destroy ended result: ' + JSON.stringify(result));
+                    expect(result2.ok).to.equal(true);
+                    return done();
+                });
+            });
         });
     });
 
@@ -320,7 +337,7 @@ describe('user CRUD', function () {
 
         internals.DB.requests.user.list(function (err, result) {
 
-            expect(result.rows.length).to.equal(4);
+            expect(result.rows.length).to.equal(3);
             expect(result.rows[0].value.first).to.equal('Foo');
             return done();
         });

@@ -10,6 +10,8 @@ var sofaInternals = {};
 
 exports = module.exports = internals.User = function (sofaInternalsParam) {
 
+    console.log('loading user');
+
     internals.context = this;
     sofaInternals = sofaInternalsParam;
 
@@ -96,6 +98,10 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                 handler: function (documentToInsert, documentId, callback) {
 
                     sofaInternals.tools.core.insertid(documentToInsert, documentId, function (err, result) {
+
+                        if (err) {
+                            return callback(err, null);
+                        }
 
                         return callback(null, result);
                     });

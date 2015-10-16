@@ -11,7 +11,7 @@ composer.manifest = {
             sessionLife: 600000,  // this must match session length configured in ./etc/couchdb/local.ini.
                                   // example in milliseconds, default is 10 mins 600000
 
-            live: true              // live: true
+            live: false              // live: true
                                     //  * d/n load fixtures
                                     //  * update designs rather than load new ones.
         }
@@ -19,11 +19,17 @@ composer.manifest = {
     docs: {
         port: 9000       // port docs display on.
     },
-    requests: [{
-        './user/requestsUser': [{
-            'name': 'user'
-        }]
-    }],
+    requests: [
+        {
+            './user/requestsUser': [{
+                'name': 'user'
+            }]
+        },
+        { './tools/requestsCore': [{
+                'name': 'core' // requests.core()
+            }]
+        }
+    ],
     designs: [{
         './user/designUser': [{
             'name': 'user'

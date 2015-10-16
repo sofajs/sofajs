@@ -19,7 +19,7 @@ internals.DB.requests.user.insertid(documentToInsert, documentId, function (err,
     // console.log('++' + JSON.stringify(internals.DB.requests.user));
 });
 
-internals.DB.requests.user.getByEmail('js@dali.photo', function (err, result) {
+internals.DB.requests.user.fetchByEmail('js@dali.photo', function (err, result) {
 
     console.log('getByEmail result count: ' + result.rows.length);
     console.log('user.getByEmail cb: err: ' + err);
