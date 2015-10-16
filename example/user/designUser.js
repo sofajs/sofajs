@@ -41,7 +41,7 @@ exports = module.exports = internals.userDesign = function (sofaInternalsParam) 
                     map: function (doc) {
 
                         if (doc.username && doc.first && doc.last && doc.email) {
-                            // :-)1 key is id an revision id.
+                            // :-)3 key is id an revision id.
                             emit([doc._id, doc._rev], doc);
                         }
                     }

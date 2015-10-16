@@ -18,32 +18,6 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
     sofaInternals.request.register(internals.requestGroupName)
         .requests([
 
-            // getuser
-
-            {
-                name: 'getuser',
-                group: internals.requestGroupName,
-                comment: 'get user function message created here  \n' +
-                         '[link to google](http://www.google.com)',
-                handler: function (params, callback) {
-
-                    console.log('execute requests function getuser()');
-
-                    // check for connection errors
-                    // all design functions create a db connection before executing the function.
-                    // If connection has an error, err object will be in first parameter.
-
-                    if (arguments[0] && arguments[0].name === 'Error'){
-
-                        callback(arguments[0]);
-                        return this;
-                    }
-
-                    callback(null, 'requests getuser() succeeded');
-                    return internals.context;
-                }
-            },
-
             // list
 
             {
@@ -61,11 +35,11 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                     // all design functions create a db connection before executing the function.
                     // If connection has an error, err object will be in first parameter.
 
-                    if (arguments[0] && arguments[0].name === 'Error'){
+                    // if (arguments[0] && arguments[0].name === 'Error'){
 
-                        callback(arguments[0]);
-                        return this;
-                    }
+                    //     callback(arguments[0]);
+                    //     return this;
+                    // }
 
                     return sofaInternals.db.view('user', 'list', function (err, body) {
 
@@ -74,8 +48,12 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                             // console.log('email count: ' + body.rows.length);
                             // var i = 0;
 
-                            return listCallback(null, body);
+                            return callback(null, body);
                         }
+
+                        // return error
+
+                        return callback(err, null);
                     });
                 }
             },
@@ -88,13 +66,12 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                 comment: 'fetch first user record  \n',
                 handler: function (callback) {
 
-                    // console.log('execute request function first()');
+                    // optional test of connection working properly
+                    // if (arguments[0] && arguments[0].name === 'Error'){
 
-                    if (arguments[0] && arguments[0].name === 'Error'){
-
-                        callback(arguments[0]);
-                        return this;
-                    }
+                    //     return callback(arguments[0]);
+                    //     // return this;
+                    // }
 
                     return sofaInternals.db.view('user', 'list', function (err, body) {
 
@@ -104,6 +81,10 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
 
                             return callback(null, body.rows[0].value);
                         }
+
+                        // return error
+
+                        return callback(err, null);
                     });
                 }
             },
@@ -171,7 +152,7 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
             // fetchByUsername
 
             {
-                name: 'fetchByUserId',
+                name: 'fetchById',
                 group: internals.requestGroupName,
                 comment: 'request user record based on userId key.\n' +
                          'utilizes **_design/user userid** view. \n',
@@ -183,8 +164,6 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
 
                             return callback(err, null);
                         }
-
-                        // console.log('email count: ' + body.rows.length);
 
                         // var record = body.rows[body.rows.length];
                         return callback(null, body);

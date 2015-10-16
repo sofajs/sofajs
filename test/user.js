@@ -72,7 +72,7 @@ describe('CRUD', function () {
         internals.DB.getSofaInternals(function (err, sofaInternalsObject) {
 
             sofaInternals = sofaInternalsObject;
-            console.log('nano error' + sofaInternals);
+            //console.log('nano error' + sofaInternals);
 
             // sofaInternals.db.view('user', 'email', { keys: [email] }, function (err, body) {
 
@@ -93,7 +93,6 @@ describe('CRUD', function () {
                 expect(err.message).to.equal('Fake nano view error');
 
                 // expect(result.rows.length).to.equal(1);
-                // expect(result.rows[0].value.first).to.equal('Jon');
                 // expect(err).to.exist();
                 // expect(err.name).to.equal('Error');
                 return done();
@@ -109,7 +108,7 @@ describe('CRUD', function () {
 
             // expect(result.rows.length).to.equal(3);
             expect(result.rows[0].value.first).to.equal('Foo');
-            console.log('user.list: end: ' + result.rows[0].value.pw);
+            // console.log('user.list: end: ' + result.rows[0].value.pw);
             return done();
         });
     });
@@ -122,6 +121,38 @@ describe('CRUD', function () {
             expect(result.username).to.equal('Foo Foo');
             expect(result.first).to.equal('Foo');
             return done();
+        });
+    });
+
+    it('firstErr', function (done) {
+
+        internals.DB.getSofaInternals(function (err, sofaInternalsObject) {
+
+            // get internals object to create fake errors.
+
+            var sofaInternals = {};
+            sofaInternals = sofaInternalsObject;
+
+            // mock error from sofaInternals.db.view
+            // sofaInternals.db.view('user', 'email', { keys: [email] }, function (err, body) {
+
+            var original = sofaInternals.db.view;
+
+            sofaInternals.db.view = function (view, list, callback) {
+
+                var err = new Error('Fake nano view error');
+                return callback(err, 'boom');
+            };
+
+            internals.DB.requests.user.first(function (err, result) {
+
+                sofaInternals.db.view = original;
+
+                // console.log('fetchById result: ' + JSON.stringify(result));
+                // console.log('fetchById err: ' + JSON.stringify(err));
+                expect(err.message).to.equal('Fake nano view error');
+                return done();
+            });
         });
     });
 
@@ -154,7 +185,7 @@ describe('CRUD', function () {
 
                     // Change username back to original
 
-                    internals.DB.requests.user.fetchByUserId(internals.updateTest.id, function (err, result) {
+                    internals.DB.requests.user.fetchById(internals.updateTest.id, function (err, result) {
 
                         expect(result.rows.length).to.equal(1);
                         expect(result.rows[0].value.username).to.equal('waweee');
@@ -187,8 +218,8 @@ describe('CRUD', function () {
 
         internals.DB.requests.user.update(modifiedDoc, function (err, result) {
 
-            console.log('updateError: ' + err);
-            console.log('updateError: ' + err.name);
+            // console.log('updateError: ' + err);
+            // console.log('updateError: ' + err.name);
             return done();
         });
     });
@@ -210,7 +241,7 @@ describe('CRUD', function () {
 
         internals.DB.requests.user.insertid(userRecord, id, function (err, result) {
 
-            console.log('inserid: ' + result);
+            // console.log('inserid: ' + result);
             return done();
         });
     });
@@ -236,6 +267,94 @@ describe('CRUD', function () {
 
             console.log('inserid: ' + result);
             return done();
+        });
+    });
+
+    it('fetchByIdError', function (done) {
+
+        // coverage for fetchById returning an error
+        // when trying to fetch a record by id.
+
+        internals.fetchById = {};
+
+        internals.DB.requests.user.first(function (err, result) {
+
+            var sofaInternals = {};
+
+            internals.DB.getSofaInternals(function (err, sofaInternalsObject) {
+
+                // get internals object to create fake errors.
+
+                sofaInternals = sofaInternalsObject;
+
+                // mock error from sofaInternals.db.view
+                // sofaInternals.db.view('user', 'email', { keys: [email] }, function (err, body) {
+
+                var original = sofaInternals.db.view;
+
+                sofaInternals.db.view = function (view, email, keys, callback) {
+
+                    var err = new Error('Fake nano view error');
+                    return callback(err, 'boom');
+                };
+
+                internals.fetchById.userRecord = result;
+                expect(result.username).to.equal('Foo Foo');
+                expect(result.first).to.equal('Foo');
+
+                internals.DB.requests.user.fetchById(internals.fetchById.userRecord._id, function (err, result) {
+
+                    sofaInternals.db.view = original;
+
+                    // console.log('fetchById result: ' + JSON.stringify(result));
+                    // console.log('fetchById err: ' + JSON.stringify(err));
+                    expect(err.message).to.equal('Fake nano view error');
+                    return done();
+                });
+            });
+        });
+
+    });
+
+    it('list', function (done) {
+
+        internals.DB.requests.user.list(function (err, result) {
+
+            expect(result.rows.length).to.equal(4);
+            expect(result.rows[0].value.first).to.equal('Foo');
+            return done();
+        });
+    });
+
+    it('listErr', function (done) {
+
+        internals.DB.getSofaInternals(function (err, sofaInternalsObject) {
+
+            // get internals object to create fake errors.
+
+            var sofaInternals = {};
+            sofaInternals = sofaInternalsObject;
+
+            // mock error from sofaInternals.db.view
+            // sofaInternals.db.view('user', 'email', { keys: [email] }, function (err, body) {
+
+            var original = sofaInternals.db.view;
+
+            sofaInternals.db.view = function (view, list, callback) {
+
+                var err = new Error('Fake nano view error');
+                return callback(err, 'boom');
+            };
+
+            internals.DB.requests.user.list(function (err, result) {
+
+                sofaInternals.db.view = original;
+
+                // console.log('fetchById result: ' + JSON.stringify(result));
+                // console.log('fetchById err: ' + JSON.stringify(err));
+                expect(err.message).to.equal('Fake nano view error');
+                return done();
+            });
         });
     });
 });
