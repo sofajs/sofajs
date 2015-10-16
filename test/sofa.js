@@ -37,16 +37,42 @@ describe('initialization', function () {
 
             sofaInternalsclone = sofaInternals;
 
-            sofaInternalsclone.promises.general.insert({ name: 'hi promise' });
+            // sofaInternalsclone.promises.general.insert({ name: 'hi promise' });
 
-            sofaInternalsclone.promises.general.test({ name: 'hi promise' })
+            sofaInternalsclone.promises.general.test({ err: false })
                 .then(function (result) {
 
-                    console.log('test promise result ' + JSON.stringify(result));
+                    expect(result).to.equal('test promise returning data haha!!');
+                    // console.log('test promise result ' + JSON.stringify(result));
                     done();
                 }).catch(function (err) {
 
-                    console.log('test promise err' + JSON.stringify(err));
+                    //console.log('test promise err' + JSON.stringify(err));
+                    done();
+                });
+        });
+    });
+
+    it('sofa initErr', function (done) {
+
+        expect(internals.DB.identity).to.equal('composer');
+
+        var sofaInternalsclone = {};
+
+        internals.DB.getSofaInternals(function (err, sofaInternals) {
+
+            // sofaInternalsclone = sofaInternals;
+
+            sofaInternals.promises.general.test({ err: true })
+                .then(function (result) {
+
+                    expect(result).to.equal('test promise returning data haha!!');
+                    // console.log('test promise result ' + JSON.stringify(result));
+                    done();
+                }).catch(function (err) {
+
+                    expect(err).to.equal(true);
+                    //console.log('test promise err' + JSON.stringify(err));
                     done();
                 });
         });
@@ -63,7 +89,7 @@ describe('initialization', function () {
 
             sofaInternals.tools.core.test({ test: 'param sent' }, function (err, result) {
 
-                console.log('test() ' + result);
+                // console.log('test() ' + result);
                 done();
             });
         });

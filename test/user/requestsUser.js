@@ -1,8 +1,8 @@
 var Code = require('code');
 var Lab = require('lab');
 var Path = require('path');
-var Sofa = require('../lib');
-var Compose = require('../example/sofafest');
+var Sofa = require('../../lib');
+var Compose = require('../../example/sofafest');
 var Async = require('async');
 
 var Hoek = require('hoek');
@@ -21,7 +21,7 @@ var it = lab.test;
 
 internals.DB = Sofa.init(Compose.manifest, Compose.composeOptions);
 
-describe('CRUD', function () {
+describe('user CRUD', function () {
 
     // before(function (done) {
 
@@ -265,7 +265,7 @@ describe('CRUD', function () {
 
         internals.DB.requests.user.insertid(insertidError, id, function (err, result) {
 
-            console.log('inserid: ' + result);
+            // console.log('inserid: ' + result);
             return done();
         });
     });

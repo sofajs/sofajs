@@ -29,8 +29,6 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
 
                     var listCallback = callback;
 
-                    console.log('execute requests function getuser()');
-
                     // check for connection errors
                     // all design functions create a db connection before executing the function.
                     // If connection has an error, err object will be in first parameter.
@@ -66,7 +64,7 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                 comment: 'fetch first user record  \n',
                 handler: function (callback) {
 
-                    // optional test of connection working properly
+                    // optional check if connection working properly
                     // if (arguments[0] && arguments[0].name === 'Error'){
 
                     //     return callback(arguments[0]);
@@ -99,8 +97,6 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
 
                     sofaInternals.tools.core.insertid(documentToInsert, documentId, function (err, result) {
 
-                        console.log('insertid err: ' + err + '\ninsertid result: ' + JSON.stringify(result));
-
                         return callback(null, result);
                     });
                 }
@@ -121,7 +117,7 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                         // return this;
                     }
 
-                    console.log('fetchByEmail STARTED');
+                    // console.log('fetchByEmail STARTED');
 
                     sofaInternals.db.view('user', 'email', { keys: [email] }, function (err, body) {
 

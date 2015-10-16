@@ -14,7 +14,7 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
 
     sofaInternals.tool.register(internals.toolGroup)
         .tooldocs(internals.toolGroup,
-                'description of tool placed here. use gfm to make it pretty.')
+                'maintains core requests when working with couchdb.')
         .tools([
 
             // test
@@ -27,25 +27,9 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
 
                     internals.context = this;
 
-                    console.log('test tool object executed. ' + JSON.stringify(param) );
+                    // console.log('test tool object executed. ' + JSON.stringify(param) );
 
                     callback(null, 'hey!!! tools.core.test callback ran');
-
-                    return internals.context;
-                }
-            },
-
-            // testdocs
-
-            {
-                name: 'testdocs',
-                group: internals.toolGroup,
-                comment: 'sofajs test tool object',
-                handler: function (param, callback) {
-
-                    internals.context = this;
-
-                    console.log('test tool object executed. ' + JSON.stringify(param) );
 
                     return internals.context;
                 }
@@ -180,33 +164,16 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
                 comment: 'find document by id.',
                 handler: function (documentId, callback) {
 
-                    console.log('tools.core.findById() entered: ');
-
-                    var id = documentId;
-
-                    sofaInternals.db.get(documentId, function (err, body) {
+                    return sofaInternals.db.get(documentId, function (err, body) {
 
                         if (err && err.statusCode === 404) {
 
                             // record does not exist.
 
-                            console.log('findById record not found');
-                            console.log(err);
+                            return callback(err, null);
                         }
 
-                        if (!err) {
-
-                            console.log('findById: ' + body);
-
-                            // update test
-
-                            // sofaInternals.db.insert({_id: id, _rev: body._rev, views: {test: 'boom'} }, function (err, body) {
-
-                            //     console.log('insert body: '+ body);
-                            // });
-
-                            return callback(null, body);
-                        }
+                        return callback(null, body);
                     });
                 }
             }
