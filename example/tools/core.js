@@ -35,95 +35,49 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
                 }
             },
 
-            // destroydb
-
-            {
-                name: 'destroydb',
-                group: internals.toolGroup,
-                comment: 'destroys database',
-                handler: function (dbname, callback) {
-
-                    internals.context = this;
-
-                    console.log('destroy db executed.');
-
-                    return internals.context;
-                }
-            },
-
-            // insert
-
-            {
-                name: 'insert',
-                group: internals.toolGroup,
-                comment: 'insert documents function.',
-                handler: function (documentToInsert, callback) {
-
-                    console.log('tools.core.js: ' + JSON.stringify(sofaInternals.db));
-
-                    sofaInternals.db.insert(documentToInsert, function (err, result) {
-
-                        console.log('nano insert document completed: ' +
-                            JSON.stringify(result));
-
-                        return callback(null, result);
-                    });
-                }
-            },
-
             // insertDesign
 
             {
                 name: 'insertDesign',
                 group: internals.toolGroup,
-                comment: 'inserts a document with supplied id.',
+                comment: 'inserts a design document',
                 handler: function (designDoc, docId, callback) {
 
                     var designDocument = designDoc;
                     var documentId = docId;
 
-                    // @todo change this to
-                    // console.log('tools.core.insertid(): ' + JSON.stringify(sofaInternals.db));
-
                     sofaInternals.db.get(documentId, function (err, body) {
 
                         if (err && err.statusCode === 404) {
 
-                            // design does not exist make it.
+                            // design does not exist make new one.
 
                             return sofaInternals.db.insert(designDocument, documentId, function (err, bodyResponse, headers) {
 
                                 if (err) {
 
                                     // throw err;
-                                    return callback(err, headers);
+                                    return callback(err, null);
                                     // return reject(err);
                                 }
 
-                                // console.log('nano insertid document completed \'headers\': ' +
-                                //    JSON.stringify(headers));
-
-                                return callback(null, headers);
+                                return callback(null, bodyResponse);
                             });
                         }
 
-                        if (!err) {
 
-                            // update existing design
-                            // console.log('update existing design document: '+ body);
+                        // update existing design
+                        // console.log('update existing design document: '+ body);
 
-                            sofaInternals.db.insert({
-                                _id: documentId,
-                                _rev: body._rev,
-                                views: designDocument.views,
-                                updates: designDocument.updates },
-                                function (err, bodyResponse) {
+                        sofaInternals.db.insert({
+                            _id: documentId,
+                            _rev: body._rev,
+                            views: designDocument.views,
+                            updates: designDocument.updates },
+                            function (err, bodyResponse) {
 
-                                    console.log('updated the design document: ' + bodyResponse);
-                                    return callback(null, bodyResponse);
-                                });
-
-                        }
+                                return callback(null, bodyResponse);
+                            });
                     });
                 }
             },
@@ -138,9 +92,6 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
 
                     var designDocument = designDoc;
                     var documentId = docId;
-
-                    // @todo change this to
-                    // console.log('tools.core.insertid(): ' + JSON.stringify(sofaInternals.db));
 
                     return sofaInternals.db.insert(designDocument, documentId, function (err, body, headers) {
 

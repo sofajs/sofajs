@@ -89,6 +89,7 @@ describe('initialization', function () {
 
             sofaInternals.tools.core.test({ test: 'param sent' }, function (err, result) {
 
+                expect(result).to.equal('hey!!! tools.core.test callback ran');
                 // console.log('test() ' + result);
                 done();
             });

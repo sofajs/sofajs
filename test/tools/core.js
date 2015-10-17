@@ -91,33 +91,126 @@ describe('tools.core', function () {
         });
     });
 
-    // it('insertid', function (done) {
+    it('insertDesign', function (done) {
 
-    //     internals.DB.getSofaInternals(function (err, sofaInternals) {
+        internals.DB.getSofaInternals(function (err, sofaInternals) {
 
-    //         // make connection
+            // make connection
 
-    //         sofaInternals.connect(function () {
+            sofaInternals.connect(function () {
 
-    //             // get user record using it's id
+                // create design to insert
 
-    //             var insertDocument = {
-    //                 'username': 'Ponzo McKee',
-    //                 'first': 'Ponzo',
-    //                 'last': 'McFagen',
-    //                 'pw': 'bar',
-    //                 'email': 'ponzo@hapiu.com',
-    //                 'scope': ['user'],
-    //                 loginAttempts: 0,
-    //                 lockUntil: Date.now() - 60 * 1000
-    //             };
+                var testDesign = {
+                    language: 'javascript',
+                    views: {
+                        list: {
+                            map: function (doc) {
 
-    //             sofaInternals.tools.core.insertid(insertDocument, insertid,function (err, documentBody) {
+                                if (doc.username) {
+                                    emit(doc._id , doc);
+                                }
+                            }
+                        }
+                    }
+                };
 
-    //                 //console.log(JSON.stringify(documentBody));
-    //                 done();
-    //             });
-    //         });
-    //     });
-    // });
+                // insertDesign coverage here
+
+                sofaInternals.tools.core.insertDesign(
+                    testDesign,
+                    '_design/boom',
+                    function (err, result) {
+
+                        expect(result.ok).to.equal(true);
+
+
+                        var testDesign2 = {
+                            language: 'javascript',
+                            views: {
+                                list: {
+                                    map: function (doc) {
+
+                                        if (doc.first) {
+                                            emit(doc._id , doc.last);
+                                        }
+                                    }
+                                }
+                            }
+                        };
+
+                        // edit an existing designDocument
+
+                        sofaInternals.tools.core.insertDesign(
+                            testDesign2,
+                            '_design/boom',
+                            function (err, result) {
+
+                                // cleanup
+                                // destroy the document just created.
+
+                                var destroyObject = {
+                                    _id: result.id,
+                                    _rev: result.rev
+                                };
+
+                                sofaInternals.requests.core.destroy(destroyObject, function (err, result) {
+
+                                    // console.log('destroy ended result: ' + JSON.stringify(result));
+                                    expect(result.ok).to.equal(true);
+
+                                    return done();
+                                });
+                            });
+
+                    });
+
+            });
+        });
+    });
+
+    it('insertDesign Err Coverage', function (done) {
+
+        internals.DB.getSofaInternals(function (err, sofaInternals) {
+
+            // make connection
+
+            sofaInternals.connect(function () {
+
+                // create design to insert
+
+                var testDesign = {
+                    language: 'javascript',
+                    views: {
+                        list: {
+                            map: function (doc) {
+
+                                if (doc.username) {
+                                    emit(doc._id , doc);
+                                }
+                            }
+                        }
+                    }
+                };
+
+                var original = sofaInternals.db.insert;
+                sofaInternals.db.insert = function (designDocument, documentId, callback) {
+
+                    return callback(new Error('fake insert error'));
+                };
+
+                // insertDesign coverage here
+
+                sofaInternals.tools.core.insertDesign(
+                    testDesign,
+                    '_design/boom',
+                    function (err, result) {
+
+                        sofaInternals.db.insert = original;
+                        expect(err.message).to.equal('fake insert error');
+                        done();
+                    });
+            });
+        });
+    });
 });

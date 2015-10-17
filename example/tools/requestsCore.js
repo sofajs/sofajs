@@ -10,8 +10,6 @@ var sofaInternals = {};
 
 exports = module.exports = function (sofaInternalsParam) {
 
-    console.log('loading requestCore');
-
     internals.context = this;
 
     sofaInternals = sofaInternalsParam;
@@ -25,14 +23,12 @@ exports = module.exports = function (sofaInternalsParam) {
         {
             name: 'destroy',
             group: internals.requestGroupName,
-            comment: 'Generic destroy existing document command.\n' +
+            comment: 'destroy a document\n' +
             '#### Note:  \n' +
             'documentToDestroy param must have _id and _rev values to destroy an existing document \n' +
             '#### callback(null, body) :  \n' +
             'body is couchdb response object. body.ok == true if succeeded.',
             handler: function (documentToDestroy, callback) {
-
-                // destroy
 
                 sofaInternals.db.destroy(documentToDestroy._id, documentToDestroy._rev, function (err, body) {
 

@@ -19,12 +19,13 @@ var before = lab.before;
 var expect = Code.expect;
 var it = lab.test;
 
-console.log('loading core requests test');
 internals.DB = Sofa.init(Compose.manifest, Compose.composeOptions);
 
 describe('requestsCore', function () {
 
-    it('destroy', function (done) {
+    it('destroy record', function (done) {
+
+        // requests.core.destroy coverage
 
         Async.waterfall([
                 function (next) {

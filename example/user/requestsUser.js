@@ -10,7 +10,7 @@ var sofaInternals = {};
 
 exports = module.exports = internals.User = function (sofaInternalsParam) {
 
-    console.log('loading user');
+    // console.log('loading user');
 
     internals.context = this;
     sofaInternals = sofaInternalsParam;
