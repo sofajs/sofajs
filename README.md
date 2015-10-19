@@ -1,8 +1,6 @@
 # sofajs
 
-## CouchDB request builder.
-
-Still building -- not ready for production.
+### not ready for production -- test coverage 89%.
 
 Build couchdb request logic using sofajs which loads all requests into a 
 requests object for easy consumption within your application. Plus, documentation is 
