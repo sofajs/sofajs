@@ -6,6 +6,9 @@ Build couchdb request logic using sofajs which loads all requests into a
 requests object for easy consumption within your application. Plus, documentation is 
 generated for all requests supporting gfm.    
 
+### Install 
+`npm install sofajs`
+
 ### Why sofajs?
 While planning for a [hapijs](http://hapijs.com) project which used CouchDB saw something like sofajs was needed
 so decided to build it. 
