@@ -1,6 +1,7 @@
 CONTENTS.txt
 tags
 .idea
+.thought
 *.iml
 npm-debug.log
 dump.rdb
