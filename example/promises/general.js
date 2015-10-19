@@ -25,19 +25,19 @@ exports = module.exports = internals.generalPromises = function (sofaInternalsPa
 
                     return new Promise( function (resolve, reject) {
 
-                            var err = params.err;
-                            var result = 'test promise returning data haha!!';
-                            // console.log('promise received param : ' + JSON.stringify(params));
-                            // console.log('credentials : ' + JSON.stringify(sofaInternals.credentials));
+                        var err = params.err;
+                        var result = 'test promise returning data haha!!';
+                        // console.log('promise received param : ' + JSON.stringify(params));
+                        // console.log('credentials : ' + JSON.stringify(sofaInternals.credentials));
 
-                            if (err) {
-                                reject(err);
-                            }
+                        if (err) {
+                            reject(err);
+                        }
 
-                            // promise resolved
-                            resolve(result);
+                        // promise resolved
+                        resolve(result);
 
-                        });
+                    });
                 }
             }
         ]);

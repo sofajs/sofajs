@@ -161,55 +161,55 @@ describe('user CRUD', function () {
         internals.updateTest = {};
 
         Async.waterfall([
-                function (next) {
+            function (next) {
 
-                    // update first user document record.
+                // update first user document record.
 
-                    internals.DB.requests.user.first(function (err, result) {
+                internals.DB.requests.user.first(function (err, result) {
 
-                        internals.updateTest.original = result.username;
+                    internals.updateTest.original = result.username;
 
-                        result.username = 'waweee';
+                    result.username = 'waweee';
 
-                        var modifiedDoc = result;
+                    var modifiedDoc = result;
 
-                        internals.DB.requests.user.update(modifiedDoc, function (err, result) {
+                    internals.DB.requests.user.update(modifiedDoc, function (err, result) {
 
-                            internals.updateTest.id = result.id;
+                        internals.updateTest.id = result.id;
 
-                            expect(internals.updateTest.id).to.have.length(32);
-                            return next();
-                        });
+                        expect(internals.updateTest.id).to.have.length(32);
+                        return next();
                     });
-                }, function (next) {
-
-                    // Change username back to original
-
-                    internals.DB.requests.user.fetchById(internals.updateTest.id, function (err, result) {
-
-                        expect(result.rows.length).to.equal(1);
-                        expect(result.rows[0].value.username).to.equal('waweee');
-
-                        var editedDocument = result.rows[0].value;
-                        editedDocument.username = internals.updateTest.original;
-
-                        internals.DB.requests.user.update(editedDocument, function (err, result) {
-
-                            internals.updateTest.id = result.id;
-
-                            // changed document username back to original.
-                            expect(result.id).to.have.length(32);
-                            expect(result.ok).to.equal(true);
-                            // console.log('final update result: ' + JSON.stringify(result));
-                            // console.log('updated doc result id length: ' + JSON.stringify(internals.updateTest.id.length));
-                            return next();
-                        });
-                    });
-                }], function (err) {
-
-                    delete internals.updateTest;
-                    return done();
                 });
+            }, function (next) {
+
+                // Change username back to original
+
+                internals.DB.requests.user.fetchById(internals.updateTest.id, function (err, result) {
+
+                    expect(result.rows.length).to.equal(1);
+                    expect(result.rows[0].value.username).to.equal('waweee');
+
+                    var editedDocument = result.rows[0].value;
+                    editedDocument.username = internals.updateTest.original;
+
+                    internals.DB.requests.user.update(editedDocument, function (err, result) {
+
+                        internals.updateTest.id = result.id;
+
+                        // changed document username back to original.
+                        expect(result.id).to.have.length(32);
+                        expect(result.ok).to.equal(true);
+                        // console.log('final update result: ' + JSON.stringify(result));
+                        // console.log('updated doc result id length: ' + JSON.stringify(internals.updateTest.id.length));
+                        return next();
+                    });
+                });
+            }], function (err) {
+
+                delete internals.updateTest;
+                return done();
+            });
     });
 
     it('updateError', function (done) {

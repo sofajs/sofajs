@@ -25,7 +25,8 @@ composer.manifest = {
                 'name': 'user'
             }]
         },
-        { './tools/requestsCore': [{
+        { './tools/requestsCore': [
+            {
                 'name': 'core' // requests.core()
             }]
         }
