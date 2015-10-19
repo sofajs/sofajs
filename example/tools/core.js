@@ -36,6 +36,9 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
             },
 
             // insertDesign
+            // XXXX removed this from core
+            // now is in utils because sofajs depends on this should not be in
+            // manifest documet.  manifest is to include plugins developed by the developer.
 
             {
                 name: 'insertDesign',
