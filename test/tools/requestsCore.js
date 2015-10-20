@@ -68,12 +68,15 @@ describe('requestsCore', function () {
 
                     // console.log('destroy fetched: ' + JSON.stringify(result.rows[0].value));
 
-                    internals.DB.requests.core.destroy(result.rows[0].value, function (err, result) {
+                    internals.DB.getSofaInternals(function (err, sofaInternals) {
 
-                        //console.log('destroy ended:-) ' + internals.destroy.rev);
-                        // console.log('destroy ended result: ' + JSON.stringify(result));
-                        expect(result.ok).to.equal(true);
-                        return next();
+                        sofaInternals.utils.core.destroy(result.rows[0].value, function (err, result) {
+
+                            //console.log('destroy ended:-) ' + internals.destroy.rev);
+                            // console.log('destroy ended result: ' + JSON.stringify(result));
+                            expect(result.ok).to.equal(true);
+                            return next();
+                        });
                     });
                 });
 
@@ -109,12 +112,15 @@ describe('requestsCore', function () {
                         callback(fake, null);
                     };
 
-                    internals.DB.requests.core.destroy('fake-document', function (err, body) {
+                    internals.DB.getSofaInternals(function (err, sofaInternals) {
 
-                        sofaInternals.db.destroy = original;
+                        sofaInternals.utils.core.destroy('fake-document', function (err, result) {
 
-                        expect(err.message).to.equal('fake destroy document error');
-                        return next();
+                            sofaInternals.db.destroy = original;
+                            // expect(result.ok).to.equal(true);
+                            expect(err.message).to.equal('fake destroy document error');
+                            return next();
+                        });
                     });
                 });
 

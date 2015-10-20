@@ -18,29 +18,47 @@ exports = module.exports = function (sofaInternalsParam) {
 
     sofaInternals.request.register(internals.requestGroupName).requests([
 
-        // destroy
+        // test
 
         {
-            name: 'destroy',
+            name: 'test',
             group: internals.requestGroupName,
-            comment: 'destroy a document\n' +
-            '#### Note:  \n' +
-            'documentToDestroy param must have _id and _rev values to destroy an existing document \n' +
-            '#### callback(null, body) :  \n' +
-            'body is couchdb response object. body.ok == true if succeeded.',
-            handler: function (documentToDestroy, callback) {
+            comment: 'sofajs test tool object',
+            handler: function (param, callback) {
 
-                sofaInternals.db.destroy(documentToDestroy._id, documentToDestroy._rev, function (err, body) {
+                internals.context = this;
 
-                    if (!err) {
-                        // console.log('boom' + JSON.stringify(body));
-                        // expect(body.ok).to.equal(true);
-                        return callback(null, body);
-                    }
+                // console.log('test tool object executed. ' + JSON.stringify(param) );
 
-                    return callback(err, null);
-                });
+                callback(null, 'hey!!! tools.core.test callback ran');
+
+                return internals.context;
             }
         }
+
+        // destroy
+
+        // {
+        //     name: 'destroy',
+        //     group: internals.requestGroupName,
+        //     comment: 'destroy a document\n' +
+        //     '#### Note:  \n' +
+        //     'documentToDestroy param must have _id and _rev values to destroy an existing document \n' +
+        //     '#### callback(null, body) :  \n' +
+        //     'body is couchdb response object. body.ok == true if succeeded.',
+        //     handler: function (documentToDestroy, callback) {
+
+        //         sofaInternals.db.destroy(documentToDestroy._id, documentToDestroy._rev, function (err, body) {
+
+        //             if (!err) {
+        //                 // console.log('boom' + JSON.stringify(body));
+        //                 // expect(body.ok).to.equal(true);
+        //                 return callback(null, body);
+        //             }
+
+        //             return callback(err, null);
+        //         });
+        //     }
+        // }
     ]);
 };

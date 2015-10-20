@@ -47,7 +47,8 @@ describe('tools.core', function () {
 
                     // get user record using it's id
 
-                    sofaInternals.tools.core.findById(internals.documentId, function (err, documentBody) {
+                    // sofaInternals.tools.core.findById(internals.documentId, function (err, documentBody) {
+                    sofaInternals.utils.core.findById(internals.documentId, function (err, documentBody) {
 
                         //console.log(JSON.stringify(documentBody));
                         done();
@@ -80,7 +81,7 @@ describe('tools.core', function () {
 
                     internals.documentId = internals.documentId + 123;
 
-                    sofaInternals.tools.core.findById(internals.documentId, function (err, documentBody) {
+                    sofaInternals.utils.core.findById(internals.documentId, function (err, documentBody) {
 
                         expect(err.statusCode).to.equal(404);
                         expect(err.message).to.equal('missing');
@@ -117,7 +118,7 @@ describe('tools.core', function () {
 
                 // insertDesign coverage here
 
-                sofaInternals.tools.core.insertDesign(
+                internals.DB.insertDesign(
                     testDesign,
                     '_design/boom',
                     function (err, result) {
@@ -141,7 +142,7 @@ describe('tools.core', function () {
 
                         // edit an existing designDocument
 
-                        sofaInternals.tools.core.insertDesign(
+                        internals.DB.insertDesign(
                             testDesign2,
                             '_design/boom',
                             function (err, result) {
@@ -154,7 +155,7 @@ describe('tools.core', function () {
                                     _rev: result.rev
                                 };
 
-                                sofaInternals.requests.core.destroy(destroyObject, function (err, result) {
+                                sofaInternals.utils.core.destroy(destroyObject, function (err, result) {
 
                                     // console.log('destroy ended result: ' + JSON.stringify(result));
                                     expect(result.ok).to.equal(true);
@@ -201,7 +202,7 @@ describe('tools.core', function () {
 
                 // insertDesign coverage here
 
-                sofaInternals.tools.core.insertDesign(
+                internals.DB.insertDesign(
                     testDesign,
                     '_design/boom',
                     function (err, result) {

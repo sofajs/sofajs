@@ -277,12 +277,15 @@ describe('user CRUD', function () {
 
                 // console.log('destroy fetched: ' + JSON.stringify(result.rows[0].value));
 
-                internals.DB.requests.core.destroy(result1.rows[0].value, function (err, result2) {
+                internals.DB.getSofaInternals(function (err, sofaInternals) {
 
-                    //console.log('destroy ended:-) ' + internals.destroy.rev);
-                    // console.log('destroy ended result: ' + JSON.stringify(result));
-                    expect(result2.ok).to.equal(true);
-                    return done();
+                    sofaInternals.utils.core.destroy(result1.rows[0].value, function (err, result2) {
+
+                        //console.log('destroy ended:-) ' + internals.destroy.rev);
+                        // console.log('destroy ended result: ' + JSON.stringify(result));
+                        expect(result2.ok).to.equal(true);
+                        return done();
+                    });
                 });
             });
         });
