@@ -29,89 +29,9 @@ exports = module.exports = internals.Tools = function (sofaInternalsParam) {
 
                     // console.log('test tool object executed. ' + JSON.stringify(param) );
 
-                    callback(null, 'hey!!! tools.core.test callback ran');
-
-                    return internals.context;
+                    return callback(null, 'hey!!! tools.core.test callback ran');
                 }
             }
-
-            // insertDesign
-            // XXXX removed this from core
-            // now is in base because sofajs depends on this and it should not be in
-            // manifest document.  manifest is to include plugins developed by the developer.
-
-            // {
-            //     name: 'insertDesign',
-            //     group: internals.toolGroup,
-            //     comment: 'inserts a design document',
-            //     handler: function (designDoc, docId, callback) {
-
-            //         var designDocument = designDoc;
-            //         var documentId = docId;
-
-            //         sofaInternals.db.get(documentId, function (err, body) {
-
-            //             if (err && err.statusCode === 404) {
-
-            //                 // design does not exist make new one.
-
-            //                 return sofaInternals.db.insert(designDocument, documentId, function (err, bodyResponse, headers) {
-
-            //                     if (err) {
-
-            //                         // throw err;
-            //                         return callback(err, null);
-            //                         // return reject(err);
-            //                     }
-
-            //                     return callback(null, bodyResponse);
-            //                 });
-            //             }
-
-
-            //             // update existing design
-            //             // console.log('update existing design document: '+ body);
-
-            //             sofaInternals.db.insert({
-            //                 _id: documentId,
-            //                 _rev: body._rev,
-            //                 views: designDocument.views,
-            //                 updates: designDocument.updates },
-            //                 function (err, bodyResponse) {
-
-            //                     return callback(null, bodyResponse);
-            //                 });
-            //         });
-            //     }
-            // }
-
-            // insertid
-
-            // {
-            //     name: 'insertid',
-            //     group: internals.toolGroup,
-            //     comment: 'inserts a document with supplied id.',
-            //     handler: function (designDoc, docId, callback) {
-
-            //         var designDocument = designDoc;
-            //         var documentId = docId;
-
-            //         return sofaInternals.db.insert(designDocument, documentId, function (err, body, headers) {
-
-            //             if (err) {
-
-            //                 // throw err;
-            //                 return callback(err, headers);
-            //                 // return reject(err);
-            //             }
-
-            //             // console.log('nano insertid document completed \'headers\': ' +
-            //             //    JSON.stringify(headers));
-
-            //             return callback(null, headers);
-            //         });
-            //     }
-            // }
         ]);
 
     return sofaInternals;
