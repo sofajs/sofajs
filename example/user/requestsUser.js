@@ -89,34 +89,6 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
                 }
             },
 
-            // insertid
-
-            {
-                name: 'insertid',
-                group: internals.requestGroupName,
-                comment: 'insert document specifying it\'s _id value.',
-                handler: function (documentToInsert, documentId, callback) {
-
-                    // test internal utils loading
-                    // sofaInternals.utils.core.oneutil();
-                    // sofaInternals.utils.core.twoutil();
-
-                    sofaInternals.utils.core.insertid(documentToInsert, documentId, function (err, result) {
-
-                        //  moved above method into internal plugins
-                        //  placed it inside request method to ensure connection.
-                        //  this could be an example of where internal function should have option
-                        //  to enforce connection before executing.
-
-                        if (err) {
-                            return callback(err, null);
-                        }
-
-                        return callback(null, result);
-                    });
-                }
-            },
-
             // fetchByEmail
 
             {

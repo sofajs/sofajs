@@ -239,7 +239,7 @@ describe('user CRUD', function () {
 
         var id = 'ponzo';
 
-        internals.DB.requests.user.insertid(userRecord, id, function (err, result) {
+        internals.DB.foundation.core.insertid(userRecord, id, function (err, result) {
 
             expect(result.statusCode).to.equal(201);
             // console.log('insertid: err' + err);
@@ -263,7 +263,7 @@ describe('user CRUD', function () {
 
         var id = 'ponzo';
 
-        internals.DB.requests.user.insertid(userRecord, id, function (err, result) {
+        internals.DB.foundation.core.insertid(userRecord, id, function (err, result) {
 
             // console.log('err object: ' + JSON.stringify(err));
             expect(err.statusCode).to.equal(409);
