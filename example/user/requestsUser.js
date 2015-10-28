@@ -19,6 +19,17 @@ exports = module.exports = internals.User = function (sofaInternalsParam) {
 
     sofaInternals.request.register(internals.requestGroupName)
         .requests([
+            // first
+
+            {
+                name: 'test',
+                group: internals.requestGroupName,
+                comment: 'test user record  \n',
+                handler: function (callback) {
+
+                    console.log('test');
+                }
+            },
 
             // list
 

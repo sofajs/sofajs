@@ -1,6 +1,7 @@
 var composer = module.exports = {};
 
 composer.manifest = {
+    name: 'example',
     connections: [
         {
             db: 'sofajs',

@@ -26,7 +26,7 @@
     "start": "node example/index",
     "test": "node node_modules/lab/bin/lab -a code -t 100 -L -v",
     "test-cov-html": "node node_modules/lab/bin/lab -a code -r html -o coverage.html",
-    "docserver": "node example/startDocserver",
+    "docos": "node example/docos",
     "load": "node example/load"
   },
   "repository": {
