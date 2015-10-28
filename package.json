@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "code": "1.x.x",
+    "docos": "0.0.2",
     "lab": "5.x.x"
   },
   "scripts": {
@@ -39,7 +40,7 @@
     "interface",
     "nano"
   ],
-  "license": "BSD-3",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/zoe-1/sofajs/issues"
   },

@@ -1,4 +1,5 @@
-var DocServer = require('../../docos/lib');  // will be npm package
+// var DocServer = require('../../docos');  // will be npm package
+var DocServer = require('docos');  // will be npm package
 var Hoek = require('hoek');
 var Sofa = require('../lib');
 var Composer = require('./sofafest');
