@@ -22,7 +22,7 @@ generated for all requests supporting gfm.
   view `localhost:9000` and see example api docs.
   
 ### See current test status 
-`npm run load`  This will load fixture data for tests to use.
+`npm run load`  This will load fixture data for tests to use.<br/>
 `npm test`  88% coverage
 
 
