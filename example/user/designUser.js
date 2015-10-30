@@ -4,9 +4,7 @@ var Hoek = require('hoek');
 var internals = {};
 var sofaInternals = {};
 
-exports = module.exports = internals.userDesign = function (sofaInternalsParam) {
-
-    console.log('loading designUser()');
+exports = module.exports = internals.userDesign = function (sofaInternalsParam, done) {
 
     sofaInternals = sofaInternalsParam;
     internals.designGroup = 'user';
@@ -150,7 +148,7 @@ exports = module.exports = internals.userDesign = function (sofaInternalsParam) 
                 loginAttempts: 0,
                 lockUntil: Date.now() - 60 * 1000
             }])
-        .design.load();
+        .design.load(done);
 
     return this;
 };
