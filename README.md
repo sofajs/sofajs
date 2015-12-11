@@ -22,7 +22,7 @@ generated for all requests supporting gfm.
   view `localhost:9000` and see example api docs.
   
 ### See current test status 
-`npm run load`  This will load fixture data for tests to use.<br/>
+`npm run load`  This will load/reload designs and fixture data.<br/>
 `npm test`  88% coverage
 
 
@@ -46,13 +46,19 @@ And, nano's database methods can be accessed using: `sofaInternals.db` object.
 ### Three types of methods 
 sofajs provides tools to build three types of methods: requests, tools, and promises.
 * database **requests**  methods<br/>
-  methods that your nodejs application  will use when making a request to CouchDB. 
-  Accessible to externally to be used by applications consuming the object. 
+  methods your application  will consume to make couchdb queries. 
+  Requests are accessible externally for consumption by other applications. 
+  #### Important:
+    - **requests** methods accept a maximum of three parameters. 
+      Plan to expand support for more parameters later.
 * **tools** or helper methods<br/> 
   These are helper methods used inside database request methods. They are not accessible
   applications consuming the sofajs object.
 * **promises** methods<br/>
   Promises functions stored in sofajs object.
+  Found that promises often are reused many times in various locations 
+  of an application. So, created a space to locate promises in groups for easy reuse.
+  Technically,  tools could be promises too.
 
 ### Grouping of methods
 methods are grouped by lables you create. For example, a group named 'user' could be
@@ -73,6 +79,9 @@ supports a documentation server which generates html documenation using
 
 ### Testing
 require 100% test coverage using: [lab](https://github.com/hapijs/lab) and [code](https://github.com/hapijs/code)
+
+`npm run load`  This will load/reload designs and fixture data.<br/>
+current test coverage: `npm test`  88% coverage
 
 ### Style Guide
 Project follows: [hapijs coding conventions](https://github.com/hapijs/contrib/blob/master/Style.md)
