@@ -78,8 +78,10 @@ supports a documentation server which generates html documenation using
 [hapijs](https://github.com/hapijs).  
 
 ### Testing
-require 100% test coverage using: [lab](https://github.com/hapijs/lab) and [code](https://github.com/hapijs/code)
+require 100% test coverage using: [lab](https://github.com/hapijs/lab) and [code](https://github.com/hapijs/code) <br/> 
+test coverage 88%
 
+### Commands
 `npm run load`  This will load/reload designs and fixture data.<br/>
 current test coverage: `npm test`  88% coverage
 
