@@ -16,6 +16,9 @@ does not load fixtures and will only reload design functions.
 ### Install 
 `npm install sofajs`
 
+### See it in Action 
+* [Sample](https://github.com/sofajs/sample) https://github.com/sofajs/sample<br/>
+
 #### Three types of modules
 * **request modules** contain methods exposed to the outside world and are to be consumed by other applications.
 tool and promise methods are not exposed and are only to be consumed within the sofajs application.  
@@ -49,9 +52,6 @@ sofajs uses [nano](https://github.com/dscape/nano) when making couchdb requests.
 A database connection is guaranteed before requests are executed. 
 nano's methods are accessed using the `sofaInternals.db` object. 
 
-### See it in action 
-* https://github.com/sofajs/sample<br/>
-  view this project for examples.
   
 ### current test status 
 `npm run load`  This will load/reload designs and fixture data.<br/>
