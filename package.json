@@ -1,6 +1,6 @@
 {
   "name": "sofajs",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "couchdb interface builder",
   "main": "lib/index.js",
   "directories": {
