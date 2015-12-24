@@ -20,15 +20,15 @@
   },
   "devDependencies": {
     "code": "1.x.x",
-    "docos": "0.0.2",
+    "docos": "0.0.x",
     "lab": "5.x.x"
   },
   "scripts": {
     "start": "node example/index",
     "test": "node node_modules/lab/bin/lab -a code -t 100 -L -v",
     "test-cov-html": "node node_modules/lab/bin/lab -a code -r html -o coverage.html",
-    "docos": "node example/docos",
-    "load": "node example/load"
+    "docos": "node sample/lib/docos",
+    "load": "node sample/lib/load"
   },
   "repository": {
     "type": "git",
