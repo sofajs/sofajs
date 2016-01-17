@@ -49,8 +49,27 @@ describe('lib/base.js', function () {
                 done();
             });
         });
-        // var original = sofaInternals.connectPromise;
-        // return new Promise( function (resolve, reject) {
-        // sofaInternals.connectPromise = function () {
+    });
+
+
+    it('lib/base.js mock session.life expiration', function (done) {
+
+        database.getSofaInternals(function (err, sofaInternals) {
+
+            // sofaInternals.session.life = Date.now() -
+            // mock nano couchdb session failure to connect.
+
+            //console.log('session.life ' + sofaInternals.session.life);
+
+            var sessionCreationDate = Date.parse(sofaInternals.session.date);
+            // console.log('sessionCreateDate ' + sofaInternals.session.date);
+            var nowUnixTimeStamp = Date.now();
+            // console.log('now ' + nowUnixTimeStamp);
+            var sessionLength = nowUnixTimeStamp - sessionCreationDate;
+            // console.log('length: ' + JSON.stringify(sessionLength));
+            // console.log(sessionLength.toDateString());
+
+            done();
+        });
     });
 });

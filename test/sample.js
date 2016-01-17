@@ -24,7 +24,7 @@ var database = Sofajs.init(Composer.manifest, Composer.composeOptions);
 
 describe('initialization', function () {
 
-    it('requests.events.test', function (done) {
+    it('requests.event.test', function (done) {
 
         database.requests.event.test(function (err, result) {
 
